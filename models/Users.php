@@ -6,6 +6,7 @@
         private $tblname = "students";
         
         //Student Properties
+        public $new_id;
         public $stud_id;
         public $section_id;
         public $section_name;
@@ -83,6 +84,7 @@
       
         }
         
+        //Create
         public function registerStudent() {
             $insertQuery = "INSERT INTO students 
                             SET
@@ -120,9 +122,50 @@
             printf("Error: %s".\n, $stmt->err);
             return false;
             }
+ 
+        }
+        
+        //Update
+        public function updateStudent() {
+            $insertQuery = "UPDATE students 
+                            SET
+                              student_id = :new_id,
+                              section_id = :section_id,
+                              fname = :fname,
+                              mname = :mname,
+                              lname = :lname
+                            WHERE student_id = :student_id";
+            
+            //Prepare Insert Statement
+            $stmt = $this->conn->prepare($insertQuery);
+            
+            //Clean inputted data
+            $this->section_id = htmlspecialchars(strip_tags($this->section_id));
+            $this->section_name = htmlspecialchars(strip_tags($this->section_name));
+            $this->student_id = htmlspecialchars(strip_tags($this->student_id));
+            $this->new_id = htmlspecialchars(strip_tags($this->new_id));
+            $this->fname = htmlspecialchars(strip_tags($this->fname));
+            $this->mname = htmlspecialchars(strip_tags($this->mname));
+            $this->lname = htmlspecialchars(strip_tags($this->lname));
+            
+            //Bind paramaters
+            $stmt->bindParam(':student_id', $this->student_id);
+            $stmt->bindParam(':new_id', $this->new_id);
+            $stmt->bindParam(':section_id', $this->section_id);
+            $stmt->bindParam(':fname', $this->fname);
+            $stmt->bindParam(':mname', $this->mname);
+            $stmt->bindParam(':lname', $this->lname);
             
             
-            
+            //Execute
+            if($stmt->execute()){
+                return true;
+            }else{
+                
+            printf("Error: %s".\n, $stmt->err);
+            return false;
+            }
+ 
         }
         
     }
