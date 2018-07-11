@@ -39,7 +39,7 @@
         //Get Single Student
          public function singleStudent() {
             //Create query
-            $query = "SELECT s.student_id, s.fname, s.mname, s.lname, c.section from Students s left join sections c on s.section_id = c.section_id
+            $query = "SELECT s.student_id, concat(s.fname, ' ', s.mname, ' ', s.lname) as 'Name', c.section from Students s left join sections c on s.section_id = c.section_id
                 WHERE 
                     s.student_id = ?";
             
