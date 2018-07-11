@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 11, 2018 at 10:32 AM
+-- Generation Time: Jul 11, 2018 at 07:13 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -41,7 +41,63 @@ CREATE TABLE `admins` (
 
 INSERT INTO `admins` (`admin_id`, `fname`, `mname`, `lname`, `username`, `password`) VALUES
 (1, 'Marianne', 'Abanico', 'de Asis', '__mcdeath', 'helloworld'),
-(3, 'Russel', 'Abanico', 'de Asis', '__mcdeath', 'iamrusselthegreat');
+(3, 'Russel', 'Abanico', 'de Asis', '__mcdeath', 'iamrusselthegreat'),
+(4, '', '', '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hosted_quizzes`
+--
+
+CREATE TABLE `hosted_quizzes` (
+  `hosted_id` int(11) NOT NULL,
+  `quiz_id` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `hosted_quizzes`
+--
+
+INSERT INTO `hosted_quizzes` (`hosted_id`, `quiz_id`, `admin_id`) VALUES
+(1, 1, 1),
+(2, 16, 69);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `quiz`
+--
+
+CREATE TABLE `quiz` (
+  `quizID` int(11) NOT NULL,
+  `quizTitle` varchar(50) NOT NULL,
+  `parts` int(10) NOT NULL,
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `quiz`
+--
+
+INSERT INTO `quiz` (`quizID`, `quizTitle`, `parts`, `date_created`) VALUES
+(1, 'Bigte', 2, '2018-07-11 23:33:40'),
+(2, 'Hayop na mabangis: Princess Thea', 3, '2018-07-11 23:34:27'),
+(3, '', 0, '2018-07-12 00:16:34'),
+(4, '', 0, '2018-07-12 00:21:31'),
+(5, 'Pinakamabangis na hayop', 4, '2018-07-12 00:22:30'),
+(6, 'Magalis', 6, '2018-07-12 00:36:33'),
+(7, 'Magalis si Princess Thea', 6, '2018-07-12 00:37:48'),
+(8, 'Maangis', 8, '2018-07-12 00:41:04'),
+(9, 'NAKAKAIMPAKTA NA!', 9, '2018-07-12 00:47:18'),
+(10, 'NAKAKAIMPAKTA NA HUHUHU!', 10, '2018-07-12 00:56:36'),
+(11, 'ENEBE!', 11, '2018-07-12 00:58:40'),
+(12, 'PANTULOG NA BA!', 12, '2018-07-12 01:01:01'),
+(13, 'HUHU!', 14, '2018-07-12 01:02:02'),
+(14, 'EUT!', 14, '2018-07-12 01:02:36'),
+(15, 'TEWUP!', 14, '2018-07-12 01:03:28'),
+(16, 'MABAGES!', 14, '2018-07-12 01:06:03');
 
 -- --------------------------------------------------------
 
@@ -125,6 +181,18 @@ ALTER TABLE `admins`
   ADD PRIMARY KEY (`admin_id`);
 
 --
+-- Indexes for table `hosted_quizzes`
+--
+ALTER TABLE `hosted_quizzes`
+  ADD PRIMARY KEY (`hosted_id`);
+
+--
+-- Indexes for table `quiz`
+--
+ALTER TABLE `quiz`
+  ADD PRIMARY KEY (`quizID`);
+
+--
 -- Indexes for table `sections`
 --
 ALTER TABLE `sections`
@@ -150,7 +218,17 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `hosted_quizzes`
+--
+ALTER TABLE `hosted_quizzes`
+  MODIFY `hosted_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `quiz`
+--
+ALTER TABLE `quiz`
+  MODIFY `quizID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `sections`
 --
