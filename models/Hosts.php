@@ -21,9 +21,10 @@
             2. All Fields are required
             3. Password must be atleast 8 characters
         */
+        
         public $error_code;
         
-        //Constructor
+        //Constructor   
         public function __construct($db){
             $this->conn = $db;
         }
@@ -32,11 +33,7 @@
             /*check if inputs are left blank
             if passwords match and atleast 8 characters
             username must be unique*/
-            if($confirm_password===$password) {
-                return $error_code = 1;
-            }else{
-                return $error_code = 0;
-            }
+            
         }
         
         public function addHost() {

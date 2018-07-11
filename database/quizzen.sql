@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 05, 2018 at 02:57 PM
+-- Generation Time: Jul 11, 2018 at 10:32 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -35,6 +35,14 @@ CREATE TABLE `admins` (
   `password` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `admins`
+--
+
+INSERT INTO `admins` (`admin_id`, `fname`, `mname`, `lname`, `username`, `password`) VALUES
+(1, 'Marianne', 'Abanico', 'de Asis', '__mcdeath', 'helloworld'),
+(3, 'Russel', 'Abanico', 'de Asis', '__mcdeath', 'iamrusselthegreat');
+
 -- --------------------------------------------------------
 
 --
@@ -52,7 +60,31 @@ CREATE TABLE `sections` (
 
 INSERT INTO `sections` (`section_id`, `section`) VALUES
 (1, 'BSIT 3C-G1'),
-(2, 'BSIT 4E-G1');
+(2, 'BSIT 4E-G1'),
+(3, 'ACT 2S-G2'),
+(4, 'BSIT 3A-G1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sections_handled`
+--
+
+CREATE TABLE `sections_handled` (
+  `handling_id` int(11) NOT NULL,
+  `host_id` int(11) NOT NULL,
+  `section_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sections_handled`
+--
+
+INSERT INTO `sections_handled` (`handling_id`, `host_id`, `section_id`) VALUES
+(1, 1, 1),
+(2, 1, 4),
+(3, 3, 2),
+(4, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -76,6 +108,8 @@ CREATE TABLE `students` (
 INSERT INTO `students` (`student_id`, `section_id`, `fname`, `mname`, `lname`, `status`) VALUES
 ('2010000001', 1, 'Updated', 'De Updated Asis', 'Updated', 'ACTIVE'),
 ('2010505565', 2, 'Allen', 'Ronquillo', 'Villanueva', 'INACTIVE'),
+('2011111111', 3, 'Denise', 'De Guia', 'Sison', 'INACTIVE'),
+('2012111121', 4, 'Rose Anne', 'Reyes', 'Gabriel', 'INACTIVE'),
 ('2015422422', 1, 'Chris', 'Gonzales', 'Manuel', 'ACTIVE'),
 ('2015456500', 1, 'Edzell', 'De Regla', 'Ramos', 'INACTIVE'),
 ('2015456565', 1, 'Jayare', 'Agot', 'Troyo', 'INACTIVE');
@@ -85,10 +119,22 @@ INSERT INTO `students` (`student_id`, `section_id`, `fname`, `mname`, `lname`, `
 --
 
 --
+-- Indexes for table `admins`
+--
+ALTER TABLE `admins`
+  ADD PRIMARY KEY (`admin_id`);
+
+--
 -- Indexes for table `sections`
 --
 ALTER TABLE `sections`
   ADD PRIMARY KEY (`section_id`);
+
+--
+-- Indexes for table `sections_handled`
+--
+ALTER TABLE `sections_handled`
+  ADD PRIMARY KEY (`handling_id`);
 
 --
 -- Indexes for table `students`
@@ -101,10 +147,20 @@ ALTER TABLE `students`
 --
 
 --
+-- AUTO_INCREMENT for table `admins`
+--
+ALTER TABLE `admins`
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
 -- AUTO_INCREMENT for table `sections`
 --
 ALTER TABLE `sections`
-  MODIFY `section_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `section_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `sections_handled`
+--
+ALTER TABLE `sections_handled`
+  MODIFY `handling_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
