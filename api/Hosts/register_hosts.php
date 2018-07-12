@@ -20,8 +20,7 @@
 
     //HERE GOES VALIDATION
 
-    if( $data->admin_id != '' &&
-        $data->fname != '' &&
+    if( $data->fname != '' &&
         $data->mname != '' &&
         $data->lname != '' &&
         $data->username != '' &&
@@ -37,6 +36,10 @@
         //CONFIRM PASSWORD MATCH VALIDATION
         if($data->password == $data->confirm_pw){
             $hosts->boolSamePassword = true;
+        }
+
+        if(strlen($data->username) > 14){
+            $hosts->boolUsernameLen = true;
         }
 
         //USERNAME AVAILABILITY VALIDATION
@@ -80,10 +83,10 @@
         $hosts->boolUsernameSpecialChar == true &&
         $hosts->boolPassword == true && 
         $hosts->boolSamePassword == true &&
-        $hosts->boolAllFilled == true){
+        $hosts->boolAllFilled == true &&
+        $hosts->boolUsernameLen == true){
 
         // SAVES THE RAW DATA TO THE HOSTS CLASS
-        $hosts->admin_id = $data->admin_id;
         $hosts->fname = $data->fname;
         $hosts->mname = $data->mname;
         $hosts->lname = $data->lname;
@@ -108,6 +111,7 @@
         echo json_encode(array(
             'boolAllFilled' => $hosts->boolAllFilled,
             'boolUsername' => $hosts->boolUsername,
+            'boolUsernameLen' => $hosts->boolUsernameLen,
             'boolPassword' => $hosts->boolPassword,
             'boolboolSamePassword' => $hosts->boolSamePassword,
             'boolUsernameSpecialChar' => $hosts->boolUsernameSpecialChar
