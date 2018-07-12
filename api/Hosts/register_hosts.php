@@ -63,7 +63,6 @@
 
                 if($foundUsername == 0){
                     $hosts->boolUsername = true;
-                    echo "wala kamuka";
                 }
 
             }else{ // 
@@ -80,7 +79,8 @@
     if( $hosts->boolUsername == true && 
         $hosts->boolUsernameSpecialChar == true &&
         $hosts->boolPassword == true && 
-        $hosts->boolSamePassword == true){
+        $hosts->boolSamePassword == true &&
+        $hosts->boolAllFilled == true){
 
         // SAVES THE RAW DATA TO THE HOSTS CLASS
         $hosts->admin_id = $data->admin_id;
