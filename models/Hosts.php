@@ -18,6 +18,8 @@
         public $boolSamePassword = false;
         public $boolUsername = false;
         public $boolUsernameSpecialChar = false;
+        public $boolAllFilled = false;
+        public $boolUsernameLen = false;
         //Error Code Properties
         /*
             0. Passwords do not match
@@ -107,19 +109,17 @@
     }   
 
     public function registerHost() {
-        $insertQuery = "INSERT INTO `admins`(`admin_id`, `fname`, `mname`, `lname`, `username`, `password`) 
-                        VALUES (:admin_id,:fname,:mname,:lname,:username,:password)";
+        $insertQuery = "INSERT INTO `admins`(`fname`, `mname`, `lname`, `username`, `password`) 
+                        VALUES (:fname,:mname,:lname,:username,:password)";
       
         $stmt = $this->conn->prepare($insertQuery);
 
-        $this->admin_id = htmlspecialchars(strip_tags($this->admin_id));
         $this->fname = htmlspecialchars(strip_tags($this->fname));
         $this->mname = htmlspecialchars(strip_tags($this->mname));
         $this->lname = htmlspecialchars(strip_tags($this->lname));
         $this->username = htmlspecialchars(strip_tags($this->username));
         $this->password = htmlspecialchars(strip_tags($this->password));
 
-        $stmt->bindParam(':admin_id', $this->admin_id);
         $stmt->bindParam(':fname', $this->fname);
         $stmt->bindParam(':mname', $this->mname);
         $stmt->bindParam(':lname', $this->lname);
