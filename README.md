@@ -27,4 +27,23 @@ students
         
         
 note: kung matatapos mabuild yang back-end before matapos yung week. pwede na gawan ni allen at gian ng front end.
+
+TASKS FOR WEEK 4
+
+Responsible: Programmers
+
+quiz
+    -add quiz
+        quiz_title
+    -edit quiz 
+        quiz_title
+    -add quiz parts
+        maximum of 4, part title, select question type, position
+    -add question per each part
+        -add question
+        -add choices
+        -edit question
+        -edit choices
+        -edit answer
+        
         
