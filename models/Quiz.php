@@ -15,6 +15,12 @@
         public $fname;
         public $date_created;
         public $kunware_session = 69;
+        
+        //Quiz Part Properties
+        public $type_id;
+        public $type_name;
+        public $part_title;
+        public $position;
 
         // Constructor
         public function __construct($db) {
@@ -146,33 +152,33 @@
         
          //Update
        public function updateQuiz() {
-         $insertQuery = 'UPDATE quiz
-                            SET
-                              quizTitle = :quizTitle,
-                              parts = :parts
-                              WHERE
-                              quizID = :quizID';
+        $insertQuery = 'UPDATE quiz
+                        SET
+                          quizTitle = :quizTitle,
+                          parts = :parts
+                          WHERE
+                          quizID = :quizID';
 
-            // Prepare Insert Statement
-            $stmt = $this->conn->prepare($insertQuery);
+       // Prepare Insert Statement
+       $stmt = $this->conn->prepare($insertQuery);
 
-            // Clean inputted data
-            $this->quizTitle = htmlspecialchars(strip_tags($this->quizTitle));
-            $this->parts = htmlspecialchars(strip_tags($this->parts));
-           $this->quizID = htmlspecialchars(strip_tags($this->quizID));
+        // Clean inputted data
+       $this->quizTitle = htmlspecialchars(strip_tags($this->quizTitle));
+       $this->parts = htmlspecialchars(strip_tags($this->parts));
+       $this->quizID = htmlspecialchars(strip_tags($this->quizID));
 
-            // Bind parameters
-            $stmt->bindParam(':quizTitle', $this->quizTitle);
-            $stmt->bindParam(':parts', $this->parts);
-            $stmt->bindParam(':quizID', $this->quizID);
-           
-            // Execute
-            if ($stmt->execute()) {
-                return true;
-            } else {
-                printf("Error %s". \n, $stmt->err);
-                return false;
-            }
+        // Bind parameters
+        $stmt->bindParam(':quizTitle', $this->quizTitle);
+        $stmt->bindParam(':parts', $this->parts);
+        $stmt->bindParam(':quizID', $this->quizID);
+
+        // Execute
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            printf("Error %s". \n, $stmt->err);
+            return false;
+        }
         }
         public function searchQuiz() {
             //Select query
@@ -196,6 +202,50 @@
             $stmt->execute();
             
             return $stmt;
-             
+        }
+        
+        public function getQuizID() {
+            $query = "SELECT quiz_id FROM quizzes WHERE quiz_title = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(1, $this->quizTitle);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->quiz_id = $row['quiz_id'];
+        }
+        
+        public function getTypeID() {
+            $query = "SELECT type_id FROM question_types WHERE type = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(1, $this->type_name);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->type_id = $row['type_id'];
+        }
+        
+        public function addQuizPart() {
+            $insertQuery = "INSERT INTO quiz_parts SET
+                                type_id = :type_id,
+                                quiz_id = :quiz_id,
+                                part_title = :part_title,
+                                position = :position";
+            
+            $stmt = $this->conn->prepare($insertQuery);
+            
+            // Bind parameters
+            $stmt->bindParam(':type_id', $this->type_id);
+            $stmt->bindParam(':quiz_id', $this->quiz_id);
+            $stmt->bindParam(':part_title', $this->part_title);
+            $stmt->bindParam(':position', $this->position);
+
+            // Execute
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                printf("Error %s". \n, $stmt->err);
+                return false;
+            }
         }
     }
+
+
+
