@@ -1,0 +1,5 @@
+add students
+search students by id
+update students
+view all students / ascending and in descending order
+add quiz
