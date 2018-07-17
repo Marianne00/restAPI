@@ -1,33 +1,40 @@
 <?php
-    // Headers
+    //Headers
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
-    header('Access-Control-Allow-Methods: POST');
+    header('Access-Control-Allow-Methods: PUT');
     header('Access-Control-Allow-Headers: Access-Control-Allow-Methods, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
 
     include_once '../../config/Database.php';
     include_once '../../models/Quiz.php';
 
-    // Instantiate Database Class
+    //Instantiate Database Class
     $database = new Database();
     $db = $database->connect();
 
-    // Instantiate Quiz Class
-    $quiz = new Quiz($db);
+    //Instantiate Users Class
+    $quiz = new Quiz($db); 
 
-    // Get Raw Data
+    //Get Raw Data
     $data = json_decode(file_get_contents('php://input'));
 
-    $quiz->quizTitle = $data->quizTitle;
-    $quiz->kunware_session = $data->hostID;
+    //Set ID
+    $quiz->quizID = $data->quizID;
 
-    // Create
-    if ($quiz->addQuiz()) {
+    $quiz->quizTitle = $data->quizTitle;
+    $quiz->parts = $data->parts;
+
+    
+    //$users->getStudentSection();
+
+    
+    //Update
+    if ($quiz->updateQuiz()){
         echo json_encode(
-            array('message' => 'Quiz created successfully!')
+            array('message' => 'Quiz updated successfully.')
         );
-    } else {
+    }else{
         echo json_encode(
-            array('message' => 'Failed to create quiz!')
-        );
+            array('message' => 'Quiz update failed.')
+        ); 
     }

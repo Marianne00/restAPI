@@ -1,0 +1,10 @@
+Quiz Search Ex:
+localhost:7777/restAPI-Quiz/api/Hosts/search_quiz.php?quizTitle=B
+
+Quiz View:
+localhost:7777/restAPI-Quiz/api/Hosts/read_quiz.php
+
+Quiz Read Single Ex:
+localhost:7777/restAPI-Quiz/api/Hosts/readsingle_quiz.php?quizTitle=BIGTE
+
+Quiz Update Ex:

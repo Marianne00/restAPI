@@ -18,10 +18,16 @@
     // Get Raw Data
     $data = json_decode(file_get_contents('php://input'));
 
-    $data->type_name = $quiz->type_name;
-    $data->quiz_name = $quiz->quizTitle;
-    $data->part_title = $quiz->part_title;
-    $data->position = $quiz->position;
+    $quiz->quizTitle = $data->quizTitle;
+    $quiz->parts = $data->parts;
 
-    $quiz->getTypeID();
-    $quiz->getQuizID();
+    // Create
+    if ($quiz->addQuiz()) {
+        echo json_encode(
+            array('message' => 'Quiz created successfully!')
+        );
+    } else {
+        echo json_encode(
+            array('message' => 'Failed to create quiz!')
+        );
+    }

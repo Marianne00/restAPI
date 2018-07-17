@@ -13,13 +13,16 @@
     //Instantiate Users Class
     $users = new Users($db); 
 
-    //Student Query
-    $result = $users->getStudents();
-        
-    //Get Row Count of Students
-    $rowcount = $result->rowCount();
+    //Get ID from URL
+   // $users->fname = isset($_GET['stud_id']) ? $_GET['stud_id'] : die();
+    
+    //Get Post
+    $result = $users->searchStudent();
 
-    if($rowcount>0){
+   //Get Row Count of Students
+    $num = $result->rowCount();
+   
+    if($num>0){
         // Users array
         $users_arr = array();
         $users_arr['data'] = array();

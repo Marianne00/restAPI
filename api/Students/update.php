@@ -2,7 +2,7 @@
     //Headers
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
-    header('Access-Control-Allow-Methods: POST');
+    header('Access-Control-Allow-Methods: PUT');
     header('Access-Control-Allow-Headers: Access-Control-Allow-Methods, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
 
     include_once '../../config/Database.php';
@@ -20,6 +20,7 @@
 
     //Set ID
     $users->new_id = $data->id;
+
     $users->student_id = $data->student_id;
     $users->section_name = $data->section_name;
     $users->fname = $data->fname;

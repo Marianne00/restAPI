@@ -4,45 +4,45 @@
     header('Content-Type: application/json');
 
     include_once '../../config/Database.php';
-    include_once '../../models/Users.php';
+    include_once '../../models/Quiz.php';
 
     //Instantiate Database Class
     $database = new Database();
     $db = $database->connect();
 
-    //Instantiate Users Class
-    $users = new Users($db); 
+    //Instantiate Quiz Class
+    $quiz = new Quiz($db); 
 
-    //Student Query
-    $result = $users->getStudents();
+    //Quiz Query
+    $result = $quiz->readQuiz();
         
     //Get Row Count of Students
     $rowcount = $result->rowCount();
 
     if($rowcount>0){
         // Users array
-        $users_arr = array();
-        $users_arr['data'] = array();
+        $quiz_arr = array();
+        $quiz_arr['data'] = array();
         
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             extract($row);
-            $user_item = array (
-                'student_num' => $student_id,
-                'fname' => $fname,
-                'mname' => $mname,
-                'lname' => $lname, 
-                'section' => $section
+            $quiz_item = array (
+                'quizID' => $quizID,
+                'quizTitle' => $quizTitle,
+                'quizParts' => $parts,
+                'date_created' => $date_created, 
+                'quizAdmin' => $fname
             );
         
             //Push to data array 
-            array_push($users_arr['data'], $user_item);
+            array_push($quiz_arr['data'], $quiz_item);
         }
         
         //Convert to JSON
-        echo json_encode($users_arr);
+        echo json_encode($quiz_arr);
     }else{
         // No students
         echo json_encode(array(
-            'message' => 'No students enrolled to quizzen yet.'
+            'message' => 'No Quiz Created.'
         ));
     }

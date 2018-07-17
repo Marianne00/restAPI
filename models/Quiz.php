@@ -12,11 +12,9 @@
         public $parts;
         public $hosted_id;
         public $admin_id;
-        public $kunware_session;
-        public $type_id;
-        public $type_name;
-        public $part_title;
-        public $position;
+        public $fname;
+        public $date_created;
+        public $kunware_session = 69;
 
         // Constructor
         public function __construct($db) {
@@ -24,9 +22,10 @@
         }
 
         public function addQuiz() {
-            $insertQuery = "INSERT INTO quizzes
+            $insertQuery = "INSERT INTO quiz
                             SET
-                              quiz_title = :quiz_title
+                              quizTitle = :quizTitle,
+                              parts = :parts
                               ";
 
             // Prepare Insert Statement
@@ -37,7 +36,8 @@
             $this->parts = htmlspecialchars(strip_tags($this->parts));
 
             // Bind parameters
-            $stmt->bindParam(':quiz_title', $this->quizTitle);
+            $stmt->bindParam(':quizTitle', $this->quizTitle);
+            $stmt->bindParam(':parts', $this->parts);
 
             // Execute
             if ($stmt->execute()) {
@@ -51,7 +51,7 @@
 
         public function toMiddleMan() {
             // Get latest created quiz
-            $query = "SELECT MAX(quiz_id) FROM quizzes";
+            $query = "SELECT MAX(quizID) FROM quiz";
 
             // Prepare Statement
             $stmt = $this->conn->prepare($query);
@@ -61,7 +61,7 @@
 
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $this->quizID = $row['MAX(quiz_id)'];
+            $this->quizID = $row['MAX(quizID)'];
 
             // Middle Man ;-;
             $insertQuery = "INSERT INTO hosted_quizzes
@@ -85,48 +85,117 @@
                 return false;
             }
         }
-
-        
-        public function getTypeID() {
-            $query = "SELECT type_id FROM question_types 
-                      WHERE
-                        type = ?";
+ //Read Quiz
+        public function readQUiz() {
+            //Create query
+            $query = "SELECT 
+            a.quizID,
+            a.quizTitle,
+            a.parts,
+            a.date_created, 
+            b.fname 
+            FROM 
+            quiz a left join admins b 
+            on a.quizID = b.admin_id
+                ORDER BY
+                    a.quizID ASC";
             
+            //Prepare Statement
             $stmt = $this->conn->prepare($query);
-            
-            $stmt->bindParam(1, $this->type_name);
+              
+            //Execute Query
             $stmt->execute();
             
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $this->type_id = $row['type_id'];
+            return $stmt;
         }
-
-        public function getQuizID() {
-            $query = "SELECT quiz_id FROM quizzes 
-                      WHERE
-                        quiz_title = ?";
+        
+         //Get Single Quiz
+         public function singleQuiz() {
+            //Create query
+            $query = 
+            "SELECT 
+            a.quizID,
+            a.quizTitle,
+            a.parts,
+            a.date_created, 
+            b.fname 
+            FROM 
+            quiz a left join admins b 
+            on a.quizID = b.admin_id
+                WHERE 
+                    a.quizTitle = ?";
             
+            //Prepate Statement
             $stmt = $this->conn->prepare($query);
-            
+             
+            //Bind Student_ID
             $stmt->bindParam(1, $this->quizTitle);
+            
+            //Execute Query
             $stmt->execute();
             
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $this->$quizID = $row['quiz_id'];
+             
+            //Set student properties
+            $this->quizID = $row['quizID'];
+            $this->quizTitle = $row['quizTitle'];
+            $this->parts = $row['parts'];
+            $this->date_created = $row['date_created'];
+            $this->fname = $row['fname'];  
         }
         
-        
-        public function addQuizPart() {
-            $insertQuery = "INSERT INTO quiz_parts
+         //Update
+       public function updateQuiz() {
+         $insertQuery = 'UPDATE quiz
                             SET
-                                type_id = :type_id,
-                                quiz_id = :quiz_id,
-                                part_title = :part_title,
-                                position = :position";
-            
-            $stmt = $this->conn->prepare($insertQuery);
-            
-            
-        }
+                              quizTitle = :quizTitle,
+                              parts = :parts
+                              WHERE
+                              quizID = :quizID';
 
+            // Prepare Insert Statement
+            $stmt = $this->conn->prepare($insertQuery);
+
+            // Clean inputted data
+            $this->quizTitle = htmlspecialchars(strip_tags($this->quizTitle));
+            $this->parts = htmlspecialchars(strip_tags($this->parts));
+           $this->quizID = htmlspecialchars(strip_tags($this->quizID));
+
+            // Bind parameters
+            $stmt->bindParam(':quizTitle', $this->quizTitle);
+            $stmt->bindParam(':parts', $this->parts);
+            $stmt->bindParam(':quizID', $this->quizID);
+           
+            // Execute
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                printf("Error %s". \n, $stmt->err);
+                return false;
+            }
+        }
+        public function searchQuiz() {
+            //Select query
+            $query = 
+            "SELECT 
+            a.quizID,
+            a.quizTitle,
+            a.parts,
+            a.date_created, 
+            b.fname 
+            FROM 
+            quiz a left join admins b 
+            on a.quizID = b.admin_id
+                WHERE 
+                  a.quizTitle LIKE '%".$_GET['quizTitle']."%'";
+            
+             //Prepare Statement   
+            $stmt = $this->conn->prepare($query);
+            
+            //Execute Query
+            $stmt->execute();
+            
+            return $stmt;
+             
+        }
     }
