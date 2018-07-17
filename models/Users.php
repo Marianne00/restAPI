@@ -13,8 +13,6 @@
         public $fname; 
         public $mname;
         public $lname;
-        public $position;
-        public $stud_name;
         
         //Constructor
         public function __construct($db){
@@ -26,7 +24,7 @@
             //Create query
             $query = "SELECT s.student_id, s.fname, s.mname, s.lname, c.section from Students s left join sections c on s.section_id = c.section_id
                 ORDER BY
-                    s.lname $this->position";
+                    s.lname ASC";
             
             //Prepate Statement
             $stmt = $this->conn->prepare($query);
@@ -58,7 +56,9 @@
              
             //Set student properties
             $this->stud_id = $row['student_id'];
-            $this->stud_name = $row['Name'];
+            $this->fname = $row['fname'];
+            $this->mname = $row['mname'];
+            $this->lname = $row['lname'];
             $this->section_name = $row['section'];
              
             //return $row['student_id'];
@@ -166,6 +166,28 @@
             return false;
             }
  
+        }
+         public function searchStudent() {
+            //Update query
+            $query = 
+             "SELECT 
+            s.student_id, 
+            s.fname,
+            s.mname,
+            s.lname,
+            c.section
+            FROM 
+            Students s left join sections c on s.section_id = c.section_id
+                WHERE 
+                  s.fname LIKE '%".$_GET['fname']."%'";
+                
+            $stmt = $this->conn->prepare($query);
+            
+            //Execute Query
+            $stmt->execute();
+            
+            return $stmt;
+             
         }
         
     }

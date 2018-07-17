@@ -1,5 +1,0 @@
-SELECT q.quiz_id, q.quiz_title,
-qp.part_title, qp.position, qt.type FROM
-QUIZZES Q INNER JOIN QUIZ_PARTS QP
-ON q.quiz_id=qp.quiz_id INNER JOIN 
-QUESTION_TYPES QT ON QP.type_id = qt.type_id
