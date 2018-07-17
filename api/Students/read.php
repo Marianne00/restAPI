@@ -12,12 +12,17 @@
 
     //Instantiate Users Class
     $users = new Users($db); 
+    //Set position
+    $users->position = isset($_GET['position']) ? $_GET['position'] : die();
+    
 
     //Student Query
     $result = $users->getStudents();
         
     //Get Row Count of Students
     $rowcount = $result->rowCount();
+
+   
 
     if($rowcount>0){
         // Users array

@@ -19,5 +19,8 @@
     $hosts->username = $data->sent_username; 
     $hosts->password = $data->sent_password;
 
+    //    LoginController::checklogin($u,$p);
+    //    Host::checklogin($username, $password);
+
   	echo ($hosts->logInHost());
 ?>

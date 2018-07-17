@@ -12,7 +12,7 @@
         public $parts;
         public $hosted_id;
         public $admin_id;
-        public $kunware_session = 69;
+        public $kunware_session;
         public $type_id;
         public $type_name;
         public $part_title;
@@ -24,10 +24,9 @@
         }
 
         public function addQuiz() {
-            $insertQuery = "INSERT INTO quiz
+            $insertQuery = "INSERT INTO quizzes
                             SET
-                              quizTitle = :quizTitle,
-                              parts = :parts
+                              quiz_title = :quiz_title
                               ";
 
             // Prepare Insert Statement
@@ -38,8 +37,7 @@
             $this->parts = htmlspecialchars(strip_tags($this->parts));
 
             // Bind parameters
-            $stmt->bindParam(':quizTitle', $this->quizTitle);
-            $stmt->bindParam(':parts', $this->parts);
+            $stmt->bindParam(':quiz_title', $this->quizTitle);
 
             // Execute
             if ($stmt->execute()) {
@@ -53,7 +51,7 @@
 
         public function toMiddleMan() {
             // Get latest created quiz
-            $query = "SELECT MAX(quizID) FROM quiz";
+            $query = "SELECT MAX(quiz_id) FROM quizzes";
 
             // Prepare Statement
             $stmt = $this->conn->prepare($query);
@@ -63,7 +61,7 @@
 
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $this->quizID = $row['MAX(quizID)'];
+            $this->quizID = $row['MAX(quiz_id)'];
 
             // Middle Man ;-;
             $insertQuery = "INSERT INTO hosted_quizzes

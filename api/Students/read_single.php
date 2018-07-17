@@ -22,9 +22,7 @@
     //Create array
     $student_arr = array(
         'stud_id' => $users->stud_id,
-        'fname' => $users->fname,
-        'mname' => $users->mname,
-        'lname' => $users->lname,
+        'name' => $users->stud_name,
         'section' => $users->section_name
     );
 

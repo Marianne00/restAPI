@@ -86,25 +86,25 @@
         $hosts->boolAllFilled == true &&
         $hosts->boolUsernameLen == true){
 
-        // SAVES THE RAW DATA TO THE HOSTS CLASS
-        $hosts->fname = $data->fname;
-        $hosts->mname = $data->mname;
-        $hosts->lname = $data->lname;
-        $hosts->username = $data->username;
-        $hosts->password = $data->password;
-        $hosts->confirm_password = $data->confirm_pw;
+            // SAVES THE RAW DATA TO THE HOSTS CLASS
+            $hosts->fname = $data->fname;
+            $hosts->mname = $data->mname;
+            $hosts->lname = $data->lname;
+            $hosts->username = $data->username;
+            $hosts->password = $data->password;
+            $hosts->confirm_password = $data->confirm_pw;
 
-        // FUNCTION NA PUTANG INANG MAG SESEND SA DATABASE
+            // FUNCTION NA PUTANG INANG MAG SESEND SA DATABASE
 
-        if ($hosts->registerHost()){
-        echo json_encode(
-            array('message' => 'Host registered successfully.')
-        );
-        }else{
+            if ($hosts->registerHost()){
             echo json_encode(
-                array('message' => 'Host registration failed.')
-            ); 
-        }
+                array('message' => 'Host registered successfully.')
+            );
+            }else{
+                echo json_encode(
+                    array('message' => 'Host registration failed.')
+                ); 
+            }
 
 
     }else{

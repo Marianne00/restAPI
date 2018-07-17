@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2018 at 08:53 AM
+-- Generation Time: Jul 17, 2018 at 03:15 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -48,7 +48,30 @@ INSERT INTO `admins` (`admin_id`, `fname`, `mname`, `lname`, `username`, `passwo
 (7, 'Gian', 'Trillana', 'Perez', 'gian', 'gian'),
 (8, 'Marianne', 'aaa', 'ez', 'an', 'an'),
 (9, 'Marianne', 'aaa', 'ez', 'aaaaaaaaaaaaaaa', 'annnnnnn'),
-(10, 'Marianne', 'Abanico', 'de Asis', 'mariannedeasis2000', 'marianne');
+(10, 'Marianne', 'Abanico', 'de Asis', 'mariannedeasis2000', 'marianne'),
+(11, 'Marianne', 'cdfd', 'de Asis', 'mariannedeasis24300', 'marianne');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hosted_quizzes`
+--
+
+CREATE TABLE `hosted_quizzes` (
+  `hosted_id` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL,
+  `quiz_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `hosted_quizzes`
+--
+
+INSERT INTO `hosted_quizzes` (`hosted_id`, `admin_id`, `quiz_id`) VALUES
+(1, 3, 1),
+(2, 69, 7),
+(3, 3, 8),
+(4, 4, 9);
 
 -- --------------------------------------------------------
 
@@ -87,7 +110,10 @@ CREATE TABLE `quizzes` (
 --
 
 INSERT INTO `quizzes` (`quiz_id`, `quiz_title`) VALUES
-(1, 'Quiz About Programming');
+(1, 'Quiz About Programming'),
+(7, 'Neon Quiz'),
+(8, 'Logical Quiz'),
+(9, 'History Quiz');
 
 -- --------------------------------------------------------
 
@@ -130,7 +156,9 @@ INSERT INTO `sections` (`section_id`, `section`) VALUES
 (1, 'BSIT 3C-G1'),
 (2, 'BSIT 4E-G1'),
 (3, 'ACT 2S-G2'),
-(4, 'BSIT 3A-G1');
+(4, 'BSIT 3A-G1'),
+(5, 'BSIT 3I-G2'),
+(6, 'BSIT 3C-G2');
 
 -- --------------------------------------------------------
 
@@ -174,10 +202,14 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`student_id`, `section_id`, `fname`, `mname`, `lname`, `status`) VALUES
-('2010000001', 1, 'Updated', 'De Updated Asis', 'Updated', 'ACTIVE'),
+('', 0, 'Marianne', '', 'de Asis', 'INACTIVE'),
+('2010000000', 1, 'Updated', 'De Updated Asis', 'Updated', 'INACTIVE'),
 ('2010505565', 2, 'Allen', 'Ronquillo', 'Villanueva', 'INACTIVE'),
 ('2011111111', 3, 'Denise', 'De Guia', 'Sison', 'INACTIVE'),
+('2011555555', 1, 'dfs', 'dfsdf', 'fgd', 'INACTIVE'),
 ('2012111121', 4, 'Rose Anne', 'Reyes', 'Gabriel', 'INACTIVE'),
+('2012209343', 5, 'Jenny', 'Santos', 'Abanico', 'INACTIVE'),
+('2015100139', 1, 'Marianne', 'Abanico', 'de Asis', 'ACTIVE'),
 ('2015422422', 1, 'Chris', 'Gonzales', 'Manuel', 'ACTIVE'),
 ('2015456500', 1, 'Edzell', 'De Regla', 'Ramos', 'INACTIVE'),
 ('2015456565', 1, 'Jayare', 'Agot', 'Troyo', 'INACTIVE');
@@ -191,6 +223,12 @@ INSERT INTO `students` (`student_id`, `section_id`, `fname`, `mname`, `lname`, `
 --
 ALTER TABLE `admins`
   ADD PRIMARY KEY (`admin_id`);
+
+--
+-- Indexes for table `hosted_quizzes`
+--
+ALTER TABLE `hosted_quizzes`
+  ADD PRIMARY KEY (`hosted_id`);
 
 --
 -- Indexes for table `question_types`
@@ -236,7 +274,12 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT for table `hosted_quizzes`
+--
+ALTER TABLE `hosted_quizzes`
+  MODIFY `hosted_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `question_types`
 --
@@ -246,7 +289,7 @@ ALTER TABLE `question_types`
 -- AUTO_INCREMENT for table `quizzes`
 --
 ALTER TABLE `quizzes`
-  MODIFY `quiz_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `quiz_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `quiz_parts`
 --
@@ -256,7 +299,7 @@ ALTER TABLE `quiz_parts`
 -- AUTO_INCREMENT for table `sections`
 --
 ALTER TABLE `sections`
-  MODIFY `section_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `section_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `sections_handled`
 --

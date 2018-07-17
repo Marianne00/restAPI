@@ -19,7 +19,7 @@
     $data = json_decode(file_get_contents('php://input'));
 
     $quiz->quizTitle = $data->quizTitle;
-    $quiz->parts = $data->parts;
+    $quiz->kunware_session = $data->hostID;
 
     // Create
     if ($quiz->addQuiz()) {

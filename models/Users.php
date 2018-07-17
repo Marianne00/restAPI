@@ -13,6 +13,8 @@
         public $fname; 
         public $mname;
         public $lname;
+        public $position;
+        public $stud_name;
         
         //Constructor
         public function __construct($db){
@@ -24,7 +26,7 @@
             //Create query
             $query = "SELECT s.student_id, s.fname, s.mname, s.lname, c.section from Students s left join sections c on s.section_id = c.section_id
                 ORDER BY
-                    s.lname ASC";
+                    s.lname $this->position";
             
             //Prepate Statement
             $stmt = $this->conn->prepare($query);
@@ -56,9 +58,7 @@
              
             //Set student properties
             $this->stud_id = $row['student_id'];
-            $this->fname = $row['fname'];
-            $this->mname = $row['mname'];
-            $this->lname = $row['lname'];
+            $this->stud_name = $row['Name'];
             $this->section_name = $row['section'];
              
             //return $row['student_id'];
