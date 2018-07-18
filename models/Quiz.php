@@ -21,11 +21,16 @@
         public $type_name;
         public $part_title;
         public $position;
+        public $totalParts;
+        public $duration;
+
 
         //Quiz Update Variables
         public $newPartTitle;
         public $newPartType;
         public $updateId;
+
+
         // Constructor
         public function __construct($db) {
             $this->conn = $db;
@@ -226,11 +231,22 @@
             $this->type_id = $row['type_id'];
         }
         
+        public function countParts() {
+            $query = "SELECT MAX(q.position) FROM quiz_parts q WHERE q.quiz_id = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(1, $this->quiz_id);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->totalParts = $row['MAX(q.position)'];
+            return $this->totalParts;
+        }
+        
         public function addQuizPart() {
             $insertQuery = "INSERT INTO quiz_parts SET
                                 type_id = :type_id,
                                 quiz_id = :quiz_id,
                                 part_title = :part_title,
+                                duration = :duration,
                                 position = :position";
             
             $stmt = $this->conn->prepare($insertQuery);
@@ -240,6 +256,7 @@
             $stmt->bindParam(':quiz_id', $this->quiz_id);
             $stmt->bindParam(':part_title', $this->part_title);
             $stmt->bindParam(':position', $this->position);
+            $stmt->bindParam(':duration', $this->duration);
 
             // Execute
             if ($stmt->execute()) {
