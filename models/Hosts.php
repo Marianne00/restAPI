@@ -36,7 +36,7 @@
             
         }
         
-        public function addHost() {
+        public function registerHost(){
             $insertQuery = "INSERT INTO admins 
                             SET
                               admin_id = :admin_id,
@@ -74,6 +74,35 @@
                 
             printf("Error: %s".\n, $stmt->err);
             return false;
+            }
+
+
+    }
+
+    function logInHost(){
+        //QUERY
+        $query = "SELECT * FROM admins WHERE username = :username && password = :password";
+        //PREAPARE STATMENT
+        $stmt = $this->conn->prepare($query);
+        //BIND PARAMS AND EXECURE QUERY
+        $stmt->execute([ 'username' => $this->username , 'password' => $this->password]);
+
+        //IF MAY RESULT
+        if($stmt->fetch(PDO::FETCH_ASSOC)){
+            return true;
+        }else{
+            return false;
         }
+
+    }
+
+    public function getHosts() {
+            //Create query
+            $query = "SELECT * FROM admins";
+            
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            
+            return $stmt;       
     }   
 }
