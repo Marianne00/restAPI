@@ -12,7 +12,7 @@
     $database = new Database();
     $db = $database->connect();
 
-    //Instantiate Users Class
+    //Instantiate Quiz Class
     $quiz = new Quiz($db); 
 
     //Get Raw Data

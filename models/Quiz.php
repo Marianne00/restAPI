@@ -100,7 +100,8 @@
                 return false;
             }
         }
- //Read Quiz
+        
+        //Read Quiz
         public function readQUiz() {
             //Create query
             $query = "SELECT 
@@ -290,6 +291,19 @@
                 return false;
             }
         }
+        
+        public function viewQuizList() {
+            $query = 'SELECT * FROM quiz ORDER BY quizTitle ' . $_GET['order'];
+            
+            // Prepare Statement
+            $stmt = $this->conn->prepare($query);
+            
+            // Execute Query
+            $stmt->execute();
+            
+            return $stmt;
+        }
+        
     }
 
 
