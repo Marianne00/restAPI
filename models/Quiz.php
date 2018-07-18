@@ -22,6 +22,10 @@
         public $part_title;
         public $position;
 
+        //Quiz Update Variables
+        public $newPartTitle;
+        public $newPartType;
+        public $updateId;
         // Constructor
         public function __construct($db) {
             $this->conn = $db;
@@ -242,6 +246,30 @@
                 return true;
             } else {
                 printf("Error %s". \n, $stmt->err);
+                return false;
+            }
+        }
+
+        public function updateQuizPart(){
+
+            //NILAGAY KO NALANG NA WHERE IS YUNG PART_ID KASI UNIQUE NAMAN SYA
+            $updateQuery = " UPDATE `quiz_parts` 
+                             
+                             SET `part_title`=:newPartTitle,
+                                 `type_id`= :newPartType 
+
+                             WHERE part_id = :quizId";
+            //PREPARE STATEMENT
+            $stmt = $this->conn->prepare($updateQuery);
+            //BINDING OF PARAMETERS
+            $stmt->bindParam(':newPartTitle', $this->newPartTitle);
+            $stmt->bindParam(':newPartType', $this->newPartType);
+            $stmt->bindParam(':quizId', $this->updateId);
+
+            //TESTING
+            if ($stmt->execute()) {
+                return true;
+            } else {
                 return false;
             }
         }
