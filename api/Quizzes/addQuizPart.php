@@ -23,20 +23,32 @@
     $quizzes->quizTitle = $data->quizTitle;
     $quizzes->part_title = $data->part_title;
     $quizzes->position = $data->position;
-    
-    $quizzes->getTypeID();
+    $quizzes->duration = $data->duration;
+
     $quizzes->getQuizID();
-
-
-    //Create
-    if ($quizzes->addQuizPart()){
+    
+    if($quizzes->countParts() >=4) {
         echo json_encode(
-            array('message' => 'Quiz part added.')
+            array('message' => 'Your quiz can only have a maximum of 4 parts.')
         );
-    }else{
-        echo json_encode(
-            array('message' => 'There is an error.')
-        ); 
+        
+    }elseif($quizzes->countParts()  < 4){
+        $quizzes->getTypeID();
+
+        //Create
+        if ($quizzes->addQuizPart()){
+            echo json_encode(
+                array('message' => 'Quiz part added.',
+                      'num parts' => $quizzes->countParts() 
+                     )
+            );
+        }else{
+            echo json_encode(
+                array('message' => 'There is an error.')
+            ); 
+        }
     }
+
+    
 
 ?>
