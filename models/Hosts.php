@@ -74,6 +74,25 @@
                 
             printf("Error: %s".\n, $stmt->err);
             return false;
+            }
+
+
+    }
+
+    function logInHost(){
+        //QUERY
+        $query = "SELECT * FROM admins WHERE username = :username && password = :password";
+        //PREAPARE STATMENT
+        $stmt = $this->conn->prepare($query);
+        //BIND PARAMS AND EXECURE QUERY
+        $stmt->execute([ 'username' => $this->username , 'password' => $this->password]);
+
+        //IF MAY RESULT
+        if($stmt->fetch(PDO::FETCH_ASSOC)){
+            return true;
+        }else{
+            return false;
         }
+
     }   
 }
