@@ -36,7 +36,7 @@
             
         }
         
-        public function addHost() {
+        public function registerHost(){
             $insertQuery = "INSERT INTO admins 
                             SET
                               admin_id = :admin_id,
@@ -94,5 +94,15 @@
             return false;
         }
 
+    }
+
+    public function getHosts() {
+            //Create query
+            $query = "SELECT * FROM admins";
+            
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            
+            return $stmt;       
     }   
 }
