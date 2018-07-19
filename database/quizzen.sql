@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 18, 2018 at 08:23 AM
+-- Generation Time: Jul 19, 2018 at 11:04 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -49,7 +49,10 @@ INSERT INTO `admins` (`admin_id`, `fname`, `mname`, `lname`, `username`, `passwo
 (8, 'Marianne', 'aaa', 'ez', 'an', 'an'),
 (9, 'Marianne', 'aaa', 'ez', 'aaaaaaaaaaaaaaa', 'annnnnnn'),
 (10, 'Marianne', 'Abanico', 'de Asis', 'mariannedeasis2000', 'marianne'),
-(11, 'Marianne', 'cdfd', 'de Asis', 'mariannedeasis24300', 'marianne');
+(11, 'Marianne', 'cdfd', 'de Asis', 'mariannedeasis24300', 'marianne'),
+(12, 'Edzell', 'DR', 'Ramos', 'edzell1996', 'marianne'),
+(13, 'Edzell', 'DR', 'Ramos', 'edzell1997', 'pooplock'),
+(14, 'cHRIS', 'DJAS', 'NJKSDN', 'DSJFNSKFSJK', 'JKDFSKJ');
 
 -- --------------------------------------------------------
 
@@ -71,7 +74,29 @@ INSERT INTO `hosted_quizzes` (`hosted_id`, `admin_id`, `quiz_id`) VALUES
 (1, 3, 1),
 (2, 69, 7),
 (3, 3, 8),
-(4, 4, 9);
+(4, 4, 9),
+(5, 7, 10);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `questions`
+--
+
+CREATE TABLE `questions` (
+  `question_id` int(11) NOT NULL,
+  `quiz_id` int(11) NOT NULL,
+  `part_id` int(11) NOT NULL,
+  `question` varchar(500) NOT NULL,
+  `answer_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `questions`
+--
+
+INSERT INTO `questions` (`question_id`, `quiz_id`, `part_id`, `question`, `answer_id`) VALUES
+(1, 1, 26, 'Who is the first programmer?', 1);
 
 -- --------------------------------------------------------
 
@@ -102,18 +127,20 @@ INSERT INTO `question_types` (`type_id`, `type`) VALUES
 
 CREATE TABLE `quizzes` (
   `quiz_id` int(11) NOT NULL,
-  `quiz_title` varchar(250) NOT NULL
+  `quiz_title` varchar(250) NOT NULL,
+  `date_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `quizzes`
 --
 
-INSERT INTO `quizzes` (`quiz_id`, `quiz_title`) VALUES
-(1, 'Quiz About Programming'),
-(7, 'Neon Quiz'),
-(8, 'Logical Quiz'),
-(9, 'History Quiz');
+INSERT INTO `quizzes` (`quiz_id`, `quiz_title`, `date_created`) VALUES
+(1, 'AngularJS Quiz', '2018-07-18 17:13:15'),
+(7, 'Philippine Literature Quiz', '2018-07-18 17:13:15'),
+(8, 'Logical Quiz', '2018-07-18 17:13:15'),
+(9, 'History Quiz', '2018-07-18 17:13:15'),
+(10, 'English Quiz', '2018-07-18 17:13:15');
 
 -- --------------------------------------------------------
 
@@ -135,10 +162,10 @@ CREATE TABLE `quiz_parts` (
 --
 
 INSERT INTO `quiz_parts` (`part_id`, `type_id`, `quiz_id`, `part_title`, `duration`, `position`) VALUES
-(18, 2, 7, 'Neon Part 1', 10, 1),
-(19, 2, 7, 'Neon Part 2', 5, 2),
-(20, 2, 7, 'Neon Part 3', 20, 3),
-(21, 2, 7, 'Neon Part 4', 12, 4);
+(30, 2, 7, 'Hello Choice', 20, 1),
+(31, 1, 7, 'The Witch Hunter', 20, 2),
+(32, 1, 7, 'The Boar', 20, 3),
+(33, 1, 7, 'Lean With It, Rock With It', 20, 4);
 
 -- --------------------------------------------------------
 
@@ -205,11 +232,11 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`student_id`, `section_id`, `fname`, `mname`, `lname`, `status`) VALUES
-('', 0, 'Marianne', '', 'de Asis', 'INACTIVE'),
+('2000000005', 3, 'allenupdated', 'ronquilloupdated', 'villanuevaupdated', 'INACTIVE'),
 ('2010000000', 1, 'Updated', 'De Updated Asis', 'Updated', 'INACTIVE'),
-('2010505565', 2, 'Allen', 'Ronquillo', 'Villanueva', 'INACTIVE'),
 ('2011111111', 3, 'Denise', 'De Guia', 'Sison', 'INACTIVE'),
 ('2011555555', 1, 'dfs', 'dfsdf', 'fgd', 'INACTIVE'),
+('2011555558', 3, 'dfs', 'dfsdf', 'fgd', 'INACTIVE'),
 ('2012111121', 4, 'Rose Anne', 'Reyes', 'Gabriel', 'INACTIVE'),
 ('2012209343', 5, 'Jenny', 'Santos', 'Abanico', 'INACTIVE'),
 ('2015100139', 1, 'Marianne', 'Abanico', 'de Asis', 'ACTIVE'),
@@ -232,6 +259,12 @@ ALTER TABLE `admins`
 --
 ALTER TABLE `hosted_quizzes`
   ADD PRIMARY KEY (`hosted_id`);
+
+--
+-- Indexes for table `questions`
+--
+ALTER TABLE `questions`
+  ADD PRIMARY KEY (`question_id`);
 
 --
 -- Indexes for table `question_types`
@@ -277,12 +310,17 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `hosted_quizzes`
 --
 ALTER TABLE `hosted_quizzes`
-  MODIFY `hosted_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `hosted_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `questions`
+--
+ALTER TABLE `questions`
+  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `question_types`
 --
@@ -292,12 +330,12 @@ ALTER TABLE `question_types`
 -- AUTO_INCREMENT for table `quizzes`
 --
 ALTER TABLE `quizzes`
-  MODIFY `quiz_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `quiz_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `quiz_parts`
 --
 ALTER TABLE `quiz_parts`
-  MODIFY `part_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `part_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 --
 -- AUTO_INCREMENT for table `sections`
 --
