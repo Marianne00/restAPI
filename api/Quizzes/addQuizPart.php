@@ -22,7 +22,7 @@
     $quizzes->type_name = $data->type_name;
     $quizzes->quizTitle = $data->quizTitle;
     $quizzes->part_title = $data->part_title;
-    $quizzes->position = $data->position;
+  //  $quizzes->position = $data->position;
     $quizzes->duration = $data->duration;
 
     $quizzes->getQuizID();
@@ -36,7 +36,9 @@
         $quizzes->getTypeID();
 
         //Create
+        $quizzes->totalParts += 1;
         if ($quizzes->addQuizPart()){
+  
             echo json_encode(
                 array('message' => 'Quiz part added.',
                       'num parts' => $quizzes->countParts() 

@@ -20,8 +20,9 @@
  	
  	//SET THE QUIZ VARIABLES VIA $DATA
     $quiz->newPartTitle =  $data->newPartTitle;
-    $quiz->newPartType = $data->newPartType;
-    $quiz->updateId = $data->updateId;
+    $quiz->type_name = $data->type_name;
+    $quiz->part_id = $data->part_id;
+    $quiz->getTypeID();
 
     if( $quiz->updateQuizPart() ){
 

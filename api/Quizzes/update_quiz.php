@@ -20,13 +20,7 @@
 
     //Set ID
     $quiz->quizID = $data->quizID;
-
     $quiz->quizTitle = $data->quizTitle;
-    $quiz->parts = $data->parts;
-
-    
-    //$users->getStudentSection();
-
     
     //Update
     if ($quiz->updateQuiz()){

@@ -13,6 +13,7 @@
         public $fname; 
         public $mname;
         public $lname;
+        public $order;
         
         //Constructor
         public function __construct($db){
@@ -24,7 +25,7 @@
             //Create query
             $query = "SELECT s.student_id, s.fname, s.mname, s.lname, c.section from Students s left join sections c on s.section_id = c.section_id
                 ORDER BY
-                    s.lname ASC";
+                    s.lname $this->order";
             
             //Prepate Statement
             $stmt = $this->conn->prepare($query);
@@ -179,7 +180,8 @@
             FROM 
             Students s left join sections c on s.section_id = c.section_id
                 WHERE 
-                  s.fname LIKE '%".$_GET['fname']."%'";
+                  s.fname LIKE '%".$_GET['key']."%' OR s.lname LIKE '%".$_GET['key']."%'
+                  or c.section LIKE '%".$_GET['key']."%'";
                 
             $stmt = $this->conn->prepare($query);
             

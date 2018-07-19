@@ -3,8 +3,8 @@
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
 
-    include_once '../../config/Database.php';
-    include_once '../../models/Users.php';
+    include_once '../../../config/Database.php';
+    include_once '../../../models/Users.php';
 
     //Instantiate Database Class
     $database = new Database();
@@ -12,14 +12,14 @@
 
     //Instantiate Users Class
     $users = new Users($db); 
+    
+    //Get Post
+    $result = $users->searchStudent();
 
-    //Student Query
-    $result = $users->getStudents();
-        
-    //Get Row Count of Students
-    $rowcount = $result->rowCount();
-
-    if($rowcount>0){
+   //Get Row Count of Students
+    $num = $result->rowCount();
+   
+    if($num>0){
         // Users array
         $users_arr = array();
         $users_arr['data'] = array();

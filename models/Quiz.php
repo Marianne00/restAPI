@@ -14,7 +14,7 @@
         public $admin_id;
         public $fname;
         public $date_created;
-        public $kunware_session = 69;
+        public $kunware_session;
         
         //Quiz Part Properties
         public $type_id;
@@ -28,7 +28,7 @@
         //Quiz Update Variables
         public $newPartTitle;
         public $newPartType;
-        public $updateId;
+        public $part_id;
 
 
         // Constructor
@@ -37,10 +37,9 @@
         }
 
         public function addQuiz() {
-            $insertQuery = "INSERT INTO quiz
+            $insertQuery = "INSERT INTO quizzes
                             SET
-                              quizTitle = :quizTitle,
-                              parts = :parts
+                              quiz_title = :quizTitle
                               ";
 
             // Prepare Insert Statement
@@ -48,12 +47,9 @@
 
             // Clean inputted data
             $this->quizTitle = htmlspecialchars(strip_tags($this->quizTitle));
-            $this->parts = htmlspecialchars(strip_tags($this->parts));
 
             // Bind parameters
             $stmt->bindParam(':quizTitle', $this->quizTitle);
-            $stmt->bindParam(':parts', $this->parts);
-
             // Execute
             if ($stmt->execute()) {
                 $this->toMiddleMan();
@@ -66,7 +62,7 @@
 
         public function toMiddleMan() {
             // Get latest created quiz
-            $query = "SELECT MAX(quizID) FROM quiz";
+            $query = "SELECT MAX(quiz_id) FROM quizzes";
 
             // Prepare Statement
             $stmt = $this->conn->prepare($query);
@@ -76,7 +72,7 @@
 
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $this->quizID = $row['MAX(quizID)'];
+            $this->quizID = $row['MAX(quiz_id)'];
 
             // Middle Man ;-;
             $insertQuery = "INSERT INTO hosted_quizzes
@@ -162,48 +158,45 @@
         
          //Update
        public function updateQuiz() {
-        $insertQuery = 'UPDATE quiz
-                        SET
-                          quizTitle = :quizTitle,
-                          parts = :parts
-                          WHERE
-                          quizID = :quizID';
+            $insertQuery = 'UPDATE quizzes
+                            SET
+                              quiz_title = :quizTitle
+                              WHERE
+                              quiz_id = :quizID';
 
-       // Prepare Insert Statement
-       $stmt = $this->conn->prepare($insertQuery);
+           // Prepare Insert Statement
+           $stmt = $this->conn->prepare($insertQuery);
 
-        // Clean inputted data
-       $this->quizTitle = htmlspecialchars(strip_tags($this->quizTitle));
-       $this->parts = htmlspecialchars(strip_tags($this->parts));
-       $this->quizID = htmlspecialchars(strip_tags($this->quizID));
+            // Clean inputted data
+           $this->quizTitle = htmlspecialchars(strip_tags($this->quizTitle));
+           $this->quizID = htmlspecialchars(strip_tags($this->quizID));
 
-        // Bind parameters
-        $stmt->bindParam(':quizTitle', $this->quizTitle);
-        $stmt->bindParam(':parts', $this->parts);
-        $stmt->bindParam(':quizID', $this->quizID);
+            // Bind parameters
+            $stmt->bindParam(':quizTitle', $this->quizTitle);
+            $stmt->bindParam(':quizID', $this->quizID);
 
-        // Execute
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            printf("Error %s". \n, $stmt->err);
-            return false;
+            // Execute
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                printf("Error %s". \n, $stmt->err);
+                return false;
+            }
         }
-        }
+        
         public function searchQuiz() {
             //Select query
-            $query = 
-            "SELECT 
-            a.quizID,
-            a.quizTitle,
-            a.parts,
-            a.date_created, 
-            b.fname 
-            FROM 
-            quiz a left join admins b 
-            on a.quizID = b.admin_id
-                WHERE 
-                  a.quizTitle LIKE '%".$_GET['quizTitle']."%'";
+            $query =  "SELECT
+                        a.quiz_id, 
+                        a.quiz_title, 
+                       (
+                       SELECT Count(quiz_id) FROM quiz_parts
+                       Where quiz_id = a.quiz_id 
+                       ) as partsperQuiz
+                       FROM 
+                       quizzes a
+                            WHERE 
+                                a.quiz_title LIKE '%".$_GET['quiz_title']."%'";
             
              //Prepare Statement   
             $stmt = $this->conn->prepare($query);
@@ -256,7 +249,7 @@
             $stmt->bindParam(':type_id', $this->type_id);
             $stmt->bindParam(':quiz_id', $this->quiz_id);
             $stmt->bindParam(':part_title', $this->part_title);
-            $stmt->bindParam(':position', $this->position);
+            $stmt->bindParam(':position', $this->totalParts);
             $stmt->bindParam(':duration', $this->duration);
 
             // Execute
@@ -271,18 +264,16 @@
         public function updateQuizPart(){
 
             //NILAGAY KO NALANG NA WHERE IS YUNG PART_ID KASI UNIQUE NAMAN SYA
-            $updateQuery = " UPDATE `quiz_parts` 
-                             
-                             SET `part_title`=:newPartTitle,
-                                 `type_id`= :newPartType 
-
-                             WHERE part_id = :quizId";
+            $updateQuery = " UPDATE quiz_parts 
+                             SET part_title= :newPartTitle,
+                                 type_id= :type_id 
+                             WHERE part_id = :part_id";
             //PREPARE STATEMENT
             $stmt = $this->conn->prepare($updateQuery);
             //BINDING OF PARAMETERS
             $stmt->bindParam(':newPartTitle', $this->newPartTitle);
-            $stmt->bindParam(':newPartType', $this->newPartType);
-            $stmt->bindParam(':quizId', $this->updateId);
+            $stmt->bindParam(':type_id', $this->type_id);
+            $stmt->bindParam(':part_id', $this->part_id);
 
             //TESTING
             if ($stmt->execute()) {
@@ -299,6 +290,29 @@
             $stmt = $this->conn->prepare($query);
             
             // Execute Query
+            $stmt->execute();
+            
+            return $stmt;
+        }
+        
+        
+        public function searchQuizPart() {
+            //Select query
+            $query = 
+            "SELECT
+            a.part_title,
+            a.duration,
+            b.type
+           FROM 
+            quiz_parts a left join question_types b 
+            on a.type_id = b.type_id
+                WHERE 
+                  a.part_title LIKE '%".$_GET['part_title']."%'";
+            
+             //Prepare Statement   
+            $stmt = $this->conn->prepare($query);
+            
+            //Execute Query
             $stmt->execute();
             
             return $stmt;
