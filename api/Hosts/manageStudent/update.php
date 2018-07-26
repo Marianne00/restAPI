@@ -20,18 +20,17 @@
 
     $errorCont = new ErrorController();
 
-    $errors = array();
     $student_id;
 
     //Get Raw Data
     $data = json_decode(file_get_contents('php://input'));
 
     if($errorCont->validateStudentID($data->student_id, 'Student_ID')){
-          if($users->verifyStudentID($data->student_id)){
+
+          if($users->verifyStudentID($data->student_id)){ 
               
                  if($data->update_id){
-                     $student_id = $data->new_id;
-                     
+                     $student_id = $data->new_id;   
                  }else{
                      $student_id = $data->student_id;
                  }
