@@ -51,4 +51,22 @@
                 return true;
             }
         }
+        
+        public function numbersOnly($string, $field){
+            if(is_numeric($string)){
+                return true;
+            }else{
+                $this->errors['field'] = $field;
+                $this->errors['message'] = "Numbers only";
+            }
+        }
+        
+        public function checkField($string, $field){
+            if($string == "") {
+                $this->errors['field'] = $field;
+                $this->errors['message'] = "All fields are required";
+            }else{
+                return true;
+            }
+        }
     }

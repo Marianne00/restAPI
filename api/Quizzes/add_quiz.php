@@ -17,11 +17,7 @@
 
     // Get Raw Data
     $data = json_decode(file_get_contents('php://input'));
-<<<<<<< HEAD
 
-    
-=======
->>>>>>> b18f4c6cbd8b81b518ce9cc3d5fd742967a0e137
     
     $quiz->quizTitle = $data->quizTitle;
     $quiz->kunware_session = $data->hostID;

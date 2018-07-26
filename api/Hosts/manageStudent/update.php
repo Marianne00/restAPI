@@ -5,7 +5,6 @@
     header('Access-Control-Allow-Methods: PUT');
     header('Access-Control-Allow-Headers: Access-Control-Allow-Methods, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
 
-<<<<<<< HEAD
     include_once '../../../config/Database.php';
     include_once '../../../models/Users.php';
     include_once '../../../controllers/ErrorController.php';
