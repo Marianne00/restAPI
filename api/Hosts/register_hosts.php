@@ -6,107 +6,60 @@
     header('Access-Control-Allow-Headers: Access-Control-Allow-Methods, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
     include_once '../../config/Database.php';
     include_once '../../models/Hosts.php';
+    include_once '../../controllers/ErrorController.php';
     //Instantiate Database Class
     $database = new Database();
     $db = $database->connect();
     //Instantiate Users Class
     $hosts = new Hosts($db);
+    //Instatiate Error Controller
+    $errorCont = new ErrorController();
     //Get Raw Data
     $data = json_decode(file_get_contents('php://input'));
-    //HERE GOES VALIDATION
-    if( $data->fname != '' &&
-        $data->mname != '' &&
-        $data->lname != '' &&
-        $data->username != '' &&
-        $data->password != '' &&
-        $data->confirm_pw != ''){
+    
+    //HERE GOES VALIDATION =======================================================================================================
+        //CHECKS IF ALL FIELDS ARE FIELD
+    if($errorCont->UpHostRegisterFields($data->fname,$data->mname,$data->lname,$data->username,$data->password,$data->confirm_pw)){
+            //CHECKS IF USERNAME HAVE A SPECIAL CHAR
+        if($errorCont->checkHaveSpecialChar($data->username,"Host Username")){
+                //CHECKS IF USERNAME LENGTH IS >= 10
+            if($errorCont->checkLength($data->username,"Host Username",10)){
+                    //CHECKS IF PASSWORD MATCHES
+                if($errorCont->checkIfMatch($data->password,$data->confirm_pw,"Host Password")){
+                        //CHECKS IF PASSWORD LENTH >= 10
+                    if($errorCont->checkLength($data->password,"Host Password",10)){
+                        
+                        //IISASAVE SA VARIABLES NI MODEL HOST YUNG MGA SINEND NA DATA
+                        $hosts->fname = $data->fname;
+                        $hosts->mname = $data->mname;
+                        $hosts->lname = $data->lname;
+                        $hosts->username = $data->username;
+                        $hosts->password =  $data->password;
 
-        $hosts->boolAllFilled = true; 
-        //PASSWORD LENGTH VALIDATION
-        if(strlen($data->password) > 7){
-            $hosts->boolPassword = true;
-        }else{
-            $hosts->boolPassword = false;
-        }
-        //CONFIRM PASSWORD MATCH VALIDATION
-        if($data->password == $data->confirm_pw){
-            $hosts->boolSamePassword = true;
-        }else{
-            $hosts->boolSamePassword = false;
-        }
+                        if($hosts->registerHost()){
+                            echo json_encode(
+                                array('message' => 'Host Registration Success.')
+                            );
+                        }else{
+                            echo json_encode(
+                                array('message' => 'Host Registration Failed.')
+                            );
+                        }
 
-        if(strlen($data->username) > 9){
-            $hosts->boolUsernameLen = true;
-        }else{
-            $hosts->boolUsernameLen = false;
-        }
-
-        //USERNAME AVAILABILITY VALIDATION
-        $specialCharCollection = " /[\'^£$%&*()}{@#~?><>,|=_+¬-]/ ";
-        if(!preg_match($specialCharCollection, $data->username)){ // IF WALANG SPECIAL CHARACTERS
-            $hosts->boolUsernameSpecialChar = true;
-            $foundUsername = 0;
-            $result = $hosts->getHosts();
-                
-            $rowcount = $result->rowCount();
-            //IISA ISAHIN SA NAKUHANG RESULT KUNG NAGMATCH
-            if($rowcount > 0){
-                while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                    extract($row);
-                    if($data->username == $username){
-                        $foundUsername +=1;
+                    }else{
+                        echo json_encode($errorCont->errors);
                     }
-                }
-                if($foundUsername == 0){
-                    $hosts->boolUsername = true;
                 }else{
-                    $hosts->boolUsername = false;
-                }
-            }else{ // 
-                $hosts->boolUsername = true;
+                    echo json_encode($errorCont->errors);
+                }   
+            }else{
+                echo json_encode($errorCont->errors);  
             }
         }else{
-            $hosts->boolUsernameSpecialChar = false;
-        }
-
-    }else{
-        $hosts->boolAllFilled = false; 
-    }
-
-    //CHECKING IF THE SENT DATA IS OKAY
-    if( $hosts->boolUsername == true && 
-        $hosts->boolUsernameSpecialChar == true &&
-        $hosts->boolPassword == true && 
-        $hosts->boolSamePassword == true &&
-        $hosts->boolAllFilled == true &&
-        $hosts->boolUsernameLen == true){
-        // SAVES THE RAW DATA TO THE HOSTS CLASS
-        $hosts->fname = $data->fname;
-        $hosts->mname = $data->mname;
-        $hosts->lname = $data->lname;
-        $hosts->username = $data->username;
-        $hosts->password = $data->password;
-        $hosts->confirm_password = $data->confirm_pw;
-
-        //FUNCTION TO SEND THE SENT DATA TO DATABASE
-        if ($hosts->registerHost()){
-        echo json_encode(
-            array('message' => 'Host registered successfully.')
-        );
-        }else{
-            echo json_encode(
-                array('message' => 'Host registration failed.')
-            ); 
+            echo json_encode($errorCont->errors);
         }
     }else{
-        echo json_encode(array(
-            'boolAllFilled' => $hosts->boolAllFilled,
-            'boolUsername' => $hosts->boolUsername,
-            'boolUsernameLen' => $hosts->boolUsernameLen,
-            'boolPassword' => $hosts->boolPassword,
-            'boolSamePassword' => $hosts->boolSamePassword,
-            'boolUsernameSpecialChar' => $hosts->boolUsernameSpecialChar
-        ));
+        echo json_encode($errorCont->errors);
     }
 
     ?>

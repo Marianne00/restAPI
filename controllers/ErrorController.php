@@ -23,8 +23,33 @@
                 return true;
             }
         }
+
+        public function UpHostRegisterFields($host_fname,$host_mname,$host_lname,$host_username,$host_pass,$host_repass){
+            if($host_fname == "" ){
+                $this->errors['field'] = "Host FirstName";
+                $this->errors['message'] = "All fields are required";
+            }elseif($host_mname == "" ){
+                $this->errors['field'] = "Host MiddleName";
+                $this->errors['message'] = "All fields are required";
+            }elseif($host_lname == "" ){
+                $this->errors['field'] = "Host LastName";
+                $this->errors['message'] = "All fields are required";
+            }elseif($host_username == "" ){
+                $this->errors['field'] = "Host Username";
+                $this->errors['message'] = "All fields are required";
+            }elseif($host_pass == "" ){
+                $this->errors['field'] = "Host Password";
+                $this->errors['message'] = "All fields are required";
+            }elseif($host_repass == "" ){
+                $this->errors['field'] = "Host Retype Password";
+                $this->errors['message'] = "All fields are required";
+            }else{
+                return true;
+            }
+        }
         
         public function validateStudentID($student_id, $field){
+
             if (!preg_match('/^[0-9]*$/', $student_id)) {
                 $this->errors['field'] = $field;
                 $this->errors['message'] = "Student ID must be numbers only";
@@ -34,6 +59,7 @@
             }else{
                 return true;
             }
+
         }
         
         public function validateName($fname, $mname, $lname) {
@@ -69,4 +95,32 @@
                 return true;
             }
         }
+
+        public function checkLength($checkee,$field,$desired_len){
+            if(strlen($checkee) < $desired_len){
+                $this->errors['field'] = $field;
+                $this->errors['message'] = $field." length must be ".$desired_len;
+            }else{
+                return true;
+            }
+        }
+
+        public function checkHaveSpecialChar($checkee,$field){
+             if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $checkee)){
+                $this->errors['field'] = $field;
+                $this->errors['message'] = $field." has special character ";
+            }else{
+                return true;
+            }
+        }
+
+        public function checkIfMatch($checkee1,$checkee2,$field){
+            if( $checkee1 != $checkee2 ){
+                $this->errors['field'] = $field;
+                $this->errors['message'] = "Does no match";
+            }else{
+                return true;
+            }
+        }
+
     }
