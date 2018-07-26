@@ -24,12 +24,9 @@
             }
         }
 
-        public function UpHostRegisterFields($host_fname,$host_mname,$host_lname,$host_username,$host_pass,$host_repass){
+        public function UpHostRegisterFields($host_fname,$host_lname,$host_username,$host_pass,$host_repass){
             if($host_fname == "" ){
                 $this->errors['field'] = "Host FirstName";
-                $this->errors['message'] = "All fields are required";
-            }elseif($host_mname == "" ){
-                $this->errors['field'] = "Host MiddleName";
                 $this->errors['message'] = "All fields are required";
             }elseif($host_lname == "" ){
                 $this->errors['field'] = "Host LastName";
@@ -96,11 +93,11 @@
             }
         }
 
-        public function checkLength($checkee,$field,$desired_len){
-            if(strlen($checkee) < $desired_len){
+        public function checkLength($password,$field,$desired_len){
+            if(strlen($password) < $desired_len){
                 $this->errors['field'] = $field;
                 $this->errors['message'] = $field." length must be ".$desired_len;
-            }else{
+            }elseif (strlen($password) >= $desired_len){
                 return true;
             }
         }
