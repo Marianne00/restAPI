@@ -18,40 +18,47 @@
     $data = json_decode(file_get_contents('php://input'));
     
   
-    if($errorCont->UpHostRegisterFields($data->fname,$data->lname,$data->username,$data->password,$data->confirm_pw)){
-        if($errorCont->checkHaveSpecialChar($data->username,"Host Username")){
-            if($errorCont->checkLength($data->username,"Host Username",10)){
-                if($errorCont->checkIfMatch($data->password,$data->confirm_pw,"Host Password")){
-                    if($errorCont->checkLength($data->password,"Host Password",10)){
-                        $hosts->fname = $data->fname;
-                        $hosts->mname = $data->mname;
-                        $hosts->lname = $data->lname;
-                        $hosts->username = $data->username;
-                        $hosts->password =  $data->password;
+    if($errorCont->checkField($data->fname, 'Host Firstname')){
+        if($errorCont->checkField($data->lname, 'Host Lastname')){
+            if($errorCont->checkField($data->username, 'Host Username')){
+                if($errorCont->checkField($data->password, 'Host Password')){
+                    if($errorCont->checkField($data->confirm_pw, 'Host Retype Password')){
+                        if($errorCont->checkHaveSpecialChar($data->username,"Host Username")){
+                            if($errorCont->checkMinLength($data->username,"Host Username",10)){
+                                if($errorCont->checkIfMatch($data->password,$data->confirm_pw,"Host Password")){
+                                    if($errorCont->checkMinLength($data->password,"Host Password",10)){
+                                        $hosts->fname = $data->fname;
+                                        $hosts->mname = $data->mname;
+                                        $hosts->lname = $data->lname;
+                                        $hosts->username = $data->username;
+                                        $hosts->password =  $data->password;
 
-                        if($hosts->registerHost()){
-                            echo json_encode(
-                                array('message' => 'Host Registration Success.')
-                            );
-                        }else{
-                            echo json_encode(
-                                array('message' => 'Host Registration Failed.')
-                            );
+                                        if($hosts->registerHost()){
+                                            echo json_encode(
+                                                array('message' => 'Host Registration Success.')
+                                            );
+                                        }else{
+                                            echo json_encode(
+                                                array('message' => 'Host Registration Failed.')
+                                            );
+                                        }
+                                    }
+                                }  
+                            }
                         }
-                    }else{
-                        echo json_encode($errorCont->errors);
                     }
-                }else{
-                    echo json_encode($errorCont->errors);
-                }   
-            }else{
-                echo json_encode($errorCont->errors);  
+                }
             }
-        }else{
-            echo json_encode($errorCont->errors);
-        }
-    }else{
-        echo json_encode($errorCont->errors);
+        }   
+    }
+
+    if($errorCont->errors != null){
+        echo json_encode(
+            $errorCont->errors
+        );
     }
 
     ?>
+
+
+    

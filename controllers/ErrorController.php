@@ -23,27 +23,6 @@
                 return true;
             }
         }
-
-        public function UpHostRegisterFields($host_fname,$host_lname,$host_username,$host_pass,$host_repass){
-            if($host_fname == "" ){
-                $this->errors['field'] = "Host FirstName";
-                $this->errors['message'] = "All fields are required";
-            }elseif($host_lname == "" ){
-                $this->errors['field'] = "Host LastName";
-                $this->errors['message'] = "All fields are required";
-            }elseif($host_username == "" ){
-                $this->errors['field'] = "Host Username";
-                $this->errors['message'] = "All fields are required";
-            }elseif($host_pass == "" ){
-                $this->errors['field'] = "Host Password";
-                $this->errors['message'] = "All fields are required";
-            }elseif($host_repass == "" ){
-                $this->errors['field'] = "Host Retype Password";
-                $this->errors['message'] = "All fields are required";
-            }else{
-                return true;
-            }
-        }
         
         public function validateStudentID($student_id, $field){
 
@@ -84,20 +63,17 @@
             }
         }
         
-        public function checkField($string, $field){
+        public function checkField($string, $field,$min_len,$max_len){
             if($string == "") {
                 $this->errors['field'] = $field;
                 $this->errors['message'] = "All fields are required";
-            }else{
-                return true;
-            }
-        }
-
-        public function checkLength($password,$field,$desired_len){
-            if(strlen($password) < $desired_len){
+            }elseif(strlen($string) < $min_len){
                 $this->errors['field'] = $field;
-                $this->errors['message'] = $field." length must be ".$desired_len;
-            }elseif (strlen($password) >= $desired_len){
+                $this->errors['message'] = $field." length must be minimum of ".$desired_len;
+            }elseif(strlen($string) > $max_len){
+                $this->errors['field'] = $field;
+                $this->errors['message'] = $field." length must be maximum of ".$desired_len;
+            }else{
                 return true;
             }
         }

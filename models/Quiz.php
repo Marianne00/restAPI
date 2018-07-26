@@ -26,8 +26,8 @@
 
 
         //Quiz Update Variables
-        public $newPartTitle;
-        public $newPartType;
+        public $new_part_title;
+        public $new_type_id;
         public $part_id;
 
 
@@ -265,14 +265,14 @@
 
             //NILAGAY KO NALANG NA WHERE IS YUNG PART_ID KASI UNIQUE NAMAN SYA
             $updateQuery = " UPDATE quiz_parts 
-                             SET part_title= :newPartTitle,
-                                 type_id= :type_id 
+                             SET part_title= :new_part_title,
+                                 type_id= :new_type_id 
                              WHERE part_id = :part_id";
             //PREPARE STATEMENT
             $stmt = $this->conn->prepare($updateQuery);
             //BINDING OF PARAMETERS
-            $stmt->bindParam(':newPartTitle', $this->newPartTitle);
-            $stmt->bindParam(':type_id', $this->type_id);
+            $stmt->bindParam(':new_part_title', $this->new_part_title);
+            $stmt->bindParam(':new_type_id', $this->new_type_id);
             $stmt->bindParam(':part_id', $this->part_id);
 
             //TESTING
