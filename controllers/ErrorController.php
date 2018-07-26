@@ -64,15 +64,15 @@
         }
         
         public function checkField($string, $field,$min_len,$max_len){
-            if($string == "") {
+            if($string == "" || ctype_space($string)) {
                 $this->errors['field'] = $field;
                 $this->errors['message'] = "All fields are required";
             }elseif(strlen($string) < $min_len){
                 $this->errors['field'] = $field;
-                $this->errors['message'] = $field." length must be minimum of ".$desired_len;
-            }elseif(strlen($string) > $max_len){
+                $this->errors['message'] = $field." length must be minimum of ".$min_len;
+            }elseif(strlen($string) >= $max_len){
                 $this->errors['field'] = $field;
-                $this->errors['message'] = $field." length must be maximum of ".$desired_len;
+                $this->errors['message'] = $field." length must be maximum of ".$max_len;
             }else{
                 return true;
             }

@@ -19,10 +19,10 @@
     //Get Raw Data
     $data = json_decode(file_get_contents('php://input'));
 
-    if($errorCont->checkField($data->type_name, 'Type Name')){
-        if($errorCont->checkField($data->quizTitle, 'Quiz Title')){
-            if($errorCont->checkField($data->part_title, 'Part Title')){
-                if($errorCont->checkField($data->duration, 'Duration')){
+    if($errorCont->checkField($data->type_name, 'Type Name', 15, 21)){
+        if($errorCont->checkField($data->quizTitle, 'Quiz Title', 1, 201)){
+            if($errorCont->checkField($data->part_title, 'Part Title', 1, 201)){
+                if($errorCont->checkField($data->duration, 'Duration', 1, 4)){
                     if($errorCont->numbersOnly($data->duration, 'Duration')){
                         $quizzes->type_name = $data->type_name;
                         $quizzes->quizTitle = $data->quizTitle;
