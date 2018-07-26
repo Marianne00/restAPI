@@ -3,7 +3,6 @@
     class ErrorController {
         
         public $errors = array();
-        public $fields = array();
         public $name;
         
         
