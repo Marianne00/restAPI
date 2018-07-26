@@ -5,6 +5,7 @@
     header('Access-Control-Allow-Methods: PUT');
     header('Access-Control-Allow-Headers: Access-Control-Allow-Methods, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
 
+<<<<<<< HEAD
     include_once '../../../config/Database.php';
     include_once '../../../models/Users.php';
     include_once '../../../controllers/ErrorController.php';
@@ -16,6 +17,7 @@
 
     //Instantiate Users Class
     $users = new Users($db); 
+
 
     $errorCont = new ErrorController();
 
@@ -72,11 +74,7 @@
                      echo json_encode (
                         $errorCont->errors
                      );
-                 }
-                
-                 
-                     
-        
+                 }   
           }else{
               echo json_encode(
                 array(
@@ -90,6 +88,3 @@
             $errorCont->errors
         );
     }
-    
-   
-    

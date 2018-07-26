@@ -10,12 +10,18 @@
         public $stud_id;
         public $section_id;
         public $section_name;
+<<<<<<< HEAD
         public $name;
+=======
+>>>>>>> b18f4c6cbd8b81b518ce9cc3d5fd742967a0e137
         public $fname; 
         public $mname;
         public $lname;
         public $order;
+<<<<<<< HEAD
         public $keyword;
+=======
+>>>>>>> b18f4c6cbd8b81b518ce9cc3d5fd742967a0e137
         
         //Constructor
         public function __construct($db){
@@ -59,7 +65,13 @@
              
             //Set student properties
             $this->stud_id = $row['student_id'];
+<<<<<<< HEAD
             $this->name = $row['Name'];
+=======
+            $this->fname = $row['fname'];
+            $this->mname = $row['mname'];
+            $this->lname = $row['lname'];
+>>>>>>> b18f4c6cbd8b81b518ce9cc3d5fd742967a0e137
             $this->section_name = $row['section'];
              
             //return $row['student_id'];
@@ -126,6 +138,7 @@
  
         }
         
+<<<<<<< HEAD
         public function verifyStudentID($stud_id) {
             $query = "SELECT student_id FROM students WHERE student_id = ?";
             $stmt = $this->conn->prepare($query);
@@ -139,6 +152,8 @@
             
         }
         
+=======
+>>>>>>> b18f4c6cbd8b81b518ce9cc3d5fd742967a0e137
         //Update
         public function updateStudent() {
             $insertQuery = "UPDATE students 
@@ -185,6 +200,7 @@
             //Update query
             $query = 
              "SELECT 
+<<<<<<< HEAD
               s.student_id, 
               s.fname,
               s.mname,
@@ -196,6 +212,18 @@
                   WHERE 
                     s.fname LIKE '%$this->keyword%' OR s.lname LIKE '%$this->keyword%'
                     or c.section LIKE '%$this->keyword%' or concat(s.fname, ' ', s.mname, ' ', s.lname) LIKE '%$this->keyword%'";
+=======
+            s.student_id, 
+            s.fname,
+            s.mname,
+            s.lname,
+            c.section
+            FROM 
+            Students s left join sections c on s.section_id = c.section_id
+                WHERE 
+                  s.fname LIKE '%".$_GET['key']."%' OR s.lname LIKE '%".$_GET['key']."%'
+                  or c.section LIKE '%".$_GET['key']."%'";
+>>>>>>> b18f4c6cbd8b81b518ce9cc3d5fd742967a0e137
                 
             $stmt = $this->conn->prepare($query);
             
@@ -206,7 +234,10 @@
              
         }
         
+<<<<<<< HEAD
         
         
         
+=======
+>>>>>>> b18f4c6cbd8b81b518ce9cc3d5fd742967a0e137
     }
