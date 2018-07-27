@@ -15,6 +15,7 @@
         public $fname;
         public $date_created;
         public $kunware_session;
+        public $description;
         
         //Quiz Part Properties
         public $type_id;
@@ -39,18 +40,19 @@
         public function addQuiz() {
             $insertQuery = "INSERT INTO quizzes
                             SET
-                              quiz_title = :quizTitle
+                              quiz_title = :quizTitle,
+                              description = :description
                               ";
 
-            // Prepare Insert Statement
             $stmt = $this->conn->prepare($insertQuery);
 
-            // Clean inputted data
             $this->quizTitle = htmlspecialchars(strip_tags($this->quizTitle));
+            $this->description = htmlspecialchars(strip_tags($this->description));
 
             // Bind parameters
             $stmt->bindParam(':quizTitle', $this->quizTitle);
-            // Execute
+            $stmt->bindParam(':description', $this->description);
+            
             if ($stmt->execute()) {
                 $this->toMiddleMan();
                 return true;

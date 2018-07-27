@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 19, 2018 at 11:04 AM
+-- Generation Time: Jul 27, 2018 at 10:20 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -42,7 +42,7 @@ CREATE TABLE `admins` (
 INSERT INTO `admins` (`admin_id`, `fname`, `mname`, `lname`, `username`, `password`) VALUES
 (1, 'Marianne', 'Abanico', 'de Asis', '__mcdeath', 'helloworld'),
 (3, 'Russel', 'Abanico', 'de Asis', '__mcdeath', 'iamrusselthegreat'),
-(4, 'Updated', 'De Updated Asis', 'Updated', '', ''),
+(4, 'Updated', 'De Updated Asis', 'Updated', 'sad', 'sda'),
 (5, 'Gian', 'Trillana', 'Perez', 'gian', 'gianfrancis'),
 (6, 'Gian', 'Trillana', 'Perez', 'gian', 'gian'),
 (7, 'Gian', 'Trillana', 'Perez', 'gian', 'gian'),
@@ -52,7 +52,30 @@ INSERT INTO `admins` (`admin_id`, `fname`, `mname`, `lname`, `username`, `passwo
 (11, 'Marianne', 'cdfd', 'de Asis', 'mariannedeasis24300', 'marianne'),
 (12, 'Edzell', 'DR', 'Ramos', 'edzell1996', 'marianne'),
 (13, 'Edzell', 'DR', 'Ramos', 'edzell1997', 'pooplock'),
-(14, 'cHRIS', 'DJAS', 'NJKSDN', 'DSJFNSKFSJK', 'JKDFSKJ');
+(14, 'cHRIS', 'DJAS', 'NJKSDN', 'DSJFNSKFSJK', 'JKDFSKJ'),
+(15, 'Edzell', '', 'Ramos', 'edzell1997', 'pooplockKK'),
+(16, 'Edzell', '', 'Ramos', 'edzell1997', 'sadddddddd');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `courses`
+--
+
+CREATE TABLE `courses` (
+  `course_id` int(11) NOT NULL,
+  `course` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `courses`
+--
+
+INSERT INTO `courses` (`course_id`, `course`) VALUES
+(1, 'Bachelor of Science in Information and Technology'),
+(2, 'Associate in Information Technology'),
+(3, 'Bachelor of Library in Information Science'),
+(4, 'Bachelor of Science in Computer Technology');
 
 -- --------------------------------------------------------
 
@@ -75,7 +98,16 @@ INSERT INTO `hosted_quizzes` (`hosted_id`, `admin_id`, `quiz_id`) VALUES
 (2, 69, 7),
 (3, 3, 8),
 (4, 4, 9),
-(5, 7, 10);
+(5, 7, 10),
+(6, 7, 11),
+(7, 7, 12),
+(8, 7, 13),
+(9, 7, 14),
+(10, 7, 15),
+(11, 7, 16),
+(12, 7, 17),
+(13, 7, 18),
+(14, 7, 19);
 
 -- --------------------------------------------------------
 
@@ -87,7 +119,7 @@ CREATE TABLE `questions` (
   `question_id` int(11) NOT NULL,
   `quiz_id` int(11) NOT NULL,
   `part_id` int(11) NOT NULL,
-  `question` varchar(500) NOT NULL,
+  `question` varchar(1000) NOT NULL,
   `answer_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -128,6 +160,7 @@ INSERT INTO `question_types` (`type_id`, `type`) VALUES
 CREATE TABLE `quizzes` (
   `quiz_id` int(11) NOT NULL,
   `quiz_title` varchar(250) NOT NULL,
+  `description` varchar(300) DEFAULT NULL,
   `date_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -135,12 +168,21 @@ CREATE TABLE `quizzes` (
 -- Dumping data for table `quizzes`
 --
 
-INSERT INTO `quizzes` (`quiz_id`, `quiz_title`, `date_created`) VALUES
-(1, 'AngularJS Quiz', '2018-07-18 17:13:15'),
-(7, 'Philippine Literature Quiz', '2018-07-18 17:13:15'),
-(8, 'Logical Quiz', '2018-07-18 17:13:15'),
-(9, 'History Quiz', '2018-07-18 17:13:15'),
-(10, 'English Quiz', '2018-07-18 17:13:15');
+INSERT INTO `quizzes` (`quiz_id`, `quiz_title`, `description`, `date_created`) VALUES
+(1, 'AngularJS Quiz', 'dsd', '2018-07-18 17:13:15'),
+(7, 'Philippine Literature Quiz', 'asddas', '2018-07-18 17:13:15'),
+(8, 'Logical Quiz', 'sdas', '2018-07-18 17:13:15'),
+(9, 'History Quiz', 'sad', '2018-07-18 17:13:15'),
+(10, 'English Quiz', 'sda', '2018-07-18 17:13:15'),
+(11, 'Keyboard Quiz', 'This is an Keyboard Quiz', '2018-07-26 16:43:42'),
+(12, 'Keyboard Quiz', '    ', '2018-07-26 16:44:18'),
+(13, 'Keyboardist Quiz', NULL, '2018-07-26 18:30:40'),
+(14, 'Keyboardist Quiz', NULL, '2018-07-26 18:33:46'),
+(15, 'Keyboardist Quiz', NULL, '2018-07-26 18:34:05'),
+(16, 'Keyboardist Quiz', NULL, '2018-07-26 18:34:15'),
+(17, 'Keyboardist Quiz', NULL, '2018-07-26 18:34:24'),
+(18, 'saaaaaaaaaaaaaaaaaaaaasaaaaaaaaaaaaaaaaaadadsadasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssaaaaaaaaaaaaaaaasdadasdasdasdasssssssssssssssaa', '', '2018-07-27 08:18:32'),
+(19, 'saaaaaaaaaaaaaaaaaaaaasaaaaaaaaaaaaaaaaaadadsadasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssaaaaaaaaaaaaaaaasdadasdasdasdasssssssssssssssaa', 'saaaaaaaaaaaaaaaaaaaaasaaaaaaaaaaaaaaaaaadadSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSaaasdadasdasdasdasssssssssssssssaa', '2018-07-27 08:19:46');
 
 -- --------------------------------------------------------
 
@@ -162,10 +204,8 @@ CREATE TABLE `quiz_parts` (
 --
 
 INSERT INTO `quiz_parts` (`part_id`, `type_id`, `quiz_id`, `part_title`, `duration`, `position`) VALUES
-(30, 2, 7, 'Hello Choice', 20, 1),
-(31, 1, 7, 'The Witch Hunter', 20, 2),
-(32, 1, 7, 'The Boar', 20, 3),
-(33, 1, 7, 'Lean With It, Rock With It', 20, 4);
+(43, 1, 1, 'saaaaaaaaaaaaaaaaaaaaasaaaaaaaaaaaaaaaaaadadsadasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss', 12, 1),
+(44, 1, 1, 'saaaaaaaaaaaaaaaaaaaaasaaaaaaaaaaaaaaaaaadadsadassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss', 12, 2);
 
 -- --------------------------------------------------------
 
@@ -175,6 +215,7 @@ INSERT INTO `quiz_parts` (`part_id`, `type_id`, `quiz_id`, `part_title`, `durati
 
 CREATE TABLE `sections` (
   `section_id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
   `section` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -182,13 +223,15 @@ CREATE TABLE `sections` (
 -- Dumping data for table `sections`
 --
 
-INSERT INTO `sections` (`section_id`, `section`) VALUES
-(1, 'BSIT 3C-G1'),
-(2, 'BSIT 4E-G1'),
-(3, 'ACT 2S-G2'),
-(4, 'BSIT 3A-G1'),
-(5, 'BSIT 3I-G2'),
-(6, 'BSIT 3C-G2');
+INSERT INTO `sections` (`section_id`, `course_id`, `section`) VALUES
+(1, 1, 'BSIT 3C-G1'),
+(2, 1, 'BSIT 4E-G1'),
+(3, 2, 'ACT 2S-G2'),
+(4, 1, 'BSIT 3A-G1'),
+(5, 1, 'BSIT 3I-G2'),
+(6, 1, 'BSIT 3C-G2'),
+(7, 1, 'BSIT 3K-G1'),
+(8, 1, 'BSIT 4G-G1');
 
 -- --------------------------------------------------------
 
@@ -232,17 +275,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`student_id`, `section_id`, `fname`, `mname`, `lname`, `status`) VALUES
-('2000000005', 3, 'allenupdated', 'ronquilloupdated', 'villanuevaupdated', 'INACTIVE'),
-('2010000000', 1, 'Updated', 'De Updated Asis', 'Updated', 'INACTIVE'),
-('2011111111', 3, 'Denise', 'De Guia', 'Sison', 'INACTIVE'),
-('2011555555', 1, 'dfs', 'dfsdf', 'fgd', 'INACTIVE'),
-('2011555558', 3, 'dfs', 'dfsdf', 'fgd', 'INACTIVE'),
-('2012111121', 4, 'Rose Anne', 'Reyes', 'Gabriel', 'INACTIVE'),
-('2012209343', 5, 'Jenny', 'Santos', 'Abanico', 'INACTIVE'),
-('2015100139', 1, 'Marianne', 'Abanico', 'de Asis', 'ACTIVE'),
-('2015422422', 1, 'Chris', 'Gonzales', 'Manuel', 'ACTIVE'),
-('2015456500', 1, 'Edzell', 'De Regla', 'Ramos', 'INACTIVE'),
-('2015456565', 1, 'Jayare', 'Agot', 'Troyo', 'INACTIVE');
+('2011154565', 1, 'SAD', 'DASD', 'asd', 'INACTIVE'),
+('2015100139', 1, 'Marianne', 'Abanico', 'De Asis', 'INACTIVE');
 
 --
 -- Indexes for dumped tables
@@ -253,6 +287,12 @@ INSERT INTO `students` (`student_id`, `section_id`, `fname`, `mname`, `lname`, `
 --
 ALTER TABLE `admins`
   ADD PRIMARY KEY (`admin_id`);
+
+--
+-- Indexes for table `courses`
+--
+ALTER TABLE `courses`
+  ADD PRIMARY KEY (`course_id`);
 
 --
 -- Indexes for table `hosted_quizzes`
@@ -310,12 +350,17 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT for table `courses`
+--
+ALTER TABLE `courses`
+  MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `hosted_quizzes`
 --
 ALTER TABLE `hosted_quizzes`
-  MODIFY `hosted_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `hosted_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `questions`
 --
@@ -330,17 +375,17 @@ ALTER TABLE `question_types`
 -- AUTO_INCREMENT for table `quizzes`
 --
 ALTER TABLE `quizzes`
-  MODIFY `quiz_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `quiz_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `quiz_parts`
 --
 ALTER TABLE `quiz_parts`
-  MODIFY `part_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `part_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 --
 -- AUTO_INCREMENT for table `sections`
 --
 ALTER TABLE `sections`
-  MODIFY `section_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `section_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `sections_handled`
 --
