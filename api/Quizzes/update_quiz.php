@@ -16,48 +16,23 @@
 
     //Get Raw Data
     $data = json_decode(file_get_contents('php://input'));
-
-    if($errorCont->checkField($data->quizTitle, 'Quiz Title' ,0, 251)){
-        if($data->description != null){
-            if($errorCont->checkField($data->description, 'Description' ,0, 151)){
-                //Set ID
+    if($errorCont->checkHaveSpecialChar($data->quizTitle,"New Quiz Title")){
+        if($errorCont->checkField($data->quizTitle, "New Quiz Title",1,250)){
+            if($errorCont->checkField($data->description, "New Quiz Description",20,300)){
                 $quiz->quizID = $data->quizID;
                 $quiz->quizTitle = $data->quizTitle;
                 $quiz->description = $data->description;
 
-                //Update
-                if ($quiz->updateQuiz()){
-                    echo json_encode(
-                        array('message' => 'Quiz updated successfully.')
-                    );
+                if($quiz->updateQuiz()){
+                    echo json_encode( array('message' => 'Updating of Quiz Success.') );
                 }else{
-                    echo json_encode(
-                        array('message' => 'Quiz update failed.')
-                    ); 
+                    echo json_encode( array('message' => 'Updating of Quiz Failed.') );
                 }
-            }
-        }else{
-            //Set ID
-            $quiz->quizID = $data->quizID;
-            $quiz->quizTitle = $data->quizTitle;
-            $quiz->description = $data->description;
-
-            //Update
-            if ($quiz->updateQuiz()){
-                echo json_encode(
-                    array('message' => 'Quiz updated successfully.')
-                );
-            }else{
-                echo json_encode(
-                    array('message' => 'Quiz update failed.')
-                ); 
             }
         }
     }
-
-    if($errorCont->errors != null){
-        echo json_encode (
-            $errorCont->errors
-        );
-    }
     
+    if($errorCont->errors != null){
+        echo json_encode( $errorCont->errors );
+    }
+?>
