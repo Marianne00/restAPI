@@ -53,6 +53,7 @@
             $stmt->bindParam(':quizTitle', $this->quizTitle);
             $stmt->bindParam(':description', $this->description);
             
+  
             if ($stmt->execute()) {
                 $this->toMiddleMan();
                 return true;
@@ -162,7 +163,8 @@
        public function updateQuiz() {
             $insertQuery = 'UPDATE quizzes
                             SET
-                              quiz_title = :quizTitle
+                              quiz_title = :quizTitle,
+                              description = :description
                               WHERE
                               quiz_id = :quizID';
 
@@ -171,10 +173,12 @@
 
             // Clean inputted data
            $this->quizTitle = htmlspecialchars(strip_tags($this->quizTitle));
+           $this->description = htmlspecialchars(strip_tags($this->description));
            $this->quizID = htmlspecialchars(strip_tags($this->quizID));
 
             // Bind parameters
             $stmt->bindParam(':quizTitle', $this->quizTitle);
+            $stmt->bindParam(':description', $this->description);
             $stmt->bindParam(':quizID', $this->quizID);
 
             // Execute

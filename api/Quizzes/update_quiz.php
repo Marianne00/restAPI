@@ -7,28 +7,57 @@
 
     include_once '../../config/Database.php';
     include_once '../../models/Quiz.php';
+    include_once '../../controllers/ErrorController.php';
 
-    //Instantiate Database Class
     $database = new Database();
     $db = $database->connect();
-
-    //Instantiate Quiz Class
     $quiz = new Quiz($db); 
+    $errorCont = new ErrorController();
 
     //Get Raw Data
     $data = json_decode(file_get_contents('php://input'));
 
-    //Set ID
-    $quiz->quizID = $data->quizID;
-    $quiz->quizTitle = $data->quizTitle;
-    
-    //Update
-    if ($quiz->updateQuiz()){
-        echo json_encode(
-            array('message' => 'Quiz updated successfully.')
-        );
-    }else{
-        echo json_encode(
-            array('message' => 'Quiz update failed.')
-        ); 
+    if($errorCont->checkField($data->quizTitle, 'Quiz Title' ,0, 251)){
+        if($data->description != null){
+            if($errorCont->checkField($data->description, 'Description' ,0, 151)){
+                //Set ID
+                $quiz->quizID = $data->quizID;
+                $quiz->quizTitle = $data->quizTitle;
+                $quiz->description = $data->description;
+
+                //Update
+                if ($quiz->updateQuiz()){
+                    echo json_encode(
+                        array('message' => 'Quiz updated successfully.')
+                    );
+                }else{
+                    echo json_encode(
+                        array('message' => 'Quiz update failed.')
+                    ); 
+                }
+            }
+        }else{
+            //Set ID
+            $quiz->quizID = $data->quizID;
+            $quiz->quizTitle = $data->quizTitle;
+            $quiz->description = $data->description;
+
+            //Update
+            if ($quiz->updateQuiz()){
+                echo json_encode(
+                    array('message' => 'Quiz updated successfully.')
+                );
+            }else{
+                echo json_encode(
+                    array('message' => 'Quiz update failed.')
+                ); 
+            }
+        }
     }
+
+    if($errorCont->errors != null){
+        echo json_encode (
+            $errorCont->errors
+        );
+    }
+    
