@@ -12,12 +12,10 @@
 
     //Instantiate Users Class
     $users = new Users($db); 
-    
-<<<<<<< HEAD
+
     $users->keyword =  $_GET['key'];
 
-=======
->>>>>>> b18f4c6cbd8b81b518ce9cc3d5fd742967a0e137
+
     //Get Post
     $result = $users->searchStudent();
 
@@ -30,7 +28,6 @@
         $users_arr['data'] = array();
         
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-<<<<<<< HEAD
             
             $user_item = array (
                 'student_num' => $row['student_id'],
@@ -40,17 +37,8 @@
                 'fullname' => $row['fullname'],
                 'section' => $row['section'],
                 'key' => $users->keyword
-=======
-            extract($row);
-            $user_item = array (
-                'student_num' => $student_id,
-                'fname' => $fname,
-                'mname' => $mname,
-                'lname' => $lname, 
-                'section' => $section
->>>>>>> b18f4c6cbd8b81b518ce9cc3d5fd742967a0e137
             );
-        
+
             //Push to data array 
             array_push($users_arr['data'], $user_item);
         }

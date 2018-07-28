@@ -198,17 +198,7 @@
               Students s left join sections c on s.section_id = c.section_id
                   WHERE 
                     s.fname LIKE '%$this->keyword%' OR s.lname LIKE '%$this->keyword%'
-                    or c.section LIKE '%$this->keyword%' or concat(s.fname, ' ', s.mname, ' ', s.lname) LIKE '%$this->keyword%
-            s.student_id, 
-            s.fname,
-            s.mname,
-            s.lname,
-            c.section
-            FROM 
-            Students s left join sections c on s.section_id = c.section_id
-                WHERE 
-                  s.fname LIKE '%".$_GET['key']."%' OR s.lname LIKE '%".$_GET['key']."%'
-                  or c.section LIKE '%".$_GET['key']."%'";
+                    or c.section LIKE '%$this->keyword%' or concat(s.fname, ' ', s.mname, ' ', s.lname) LIKE '%$this->keyword%'";
                 
             $stmt = $this->conn->prepare($query);
             

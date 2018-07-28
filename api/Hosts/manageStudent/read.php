@@ -14,7 +14,7 @@
     $users = new Users($db); 
 
      //Get order from URL
-    $users->order = isset($_GET['order']) ? $_GET['order'] : die();
+    $users->order = isset($_GET['order']) ? $_GET['order'] : "ASC";
 
     //Student Query
     $result = $users->getStudents();
