@@ -18,32 +18,28 @@
     $data = json_decode(file_get_contents('php://input'));
     
   
-    if($errorCont->checkField($data->fname, 'Host Firstname')){
-        if($errorCont->checkField($data->lname, 'Host Lastname')){
-            if($errorCont->checkField($data->username, 'Host Username')){
-                if($errorCont->checkField($data->password, 'Host Password')){
-                    if($errorCont->checkField($data->confirm_pw, 'Host Retype Password')){
-                        if($errorCont->checkHaveSpecialChar($data->username,"Host Username")){
-                            if($errorCont->checkMinLength($data->username,"Host Username",10)){
-                                if($errorCont->checkIfMatch($data->password,$data->confirm_pw,"Host Password")){
-                                    if($errorCont->checkMinLength($data->password,"Host Password",10)){
-                                        $hosts->fname = $data->fname;
-                                        $hosts->mname = $data->mname;
-                                        $hosts->lname = $data->lname;
-                                        $hosts->username = $data->username;
-                                        $hosts->password =  $data->password;
+    if($errorCont->checkField($data->fname, 'Host Firstname' , 1 , 100)){ //  <<<<
+        if($errorCont->checkField($data->lname, 'Host Lastname' , 1 , 100)){ //  <<<<
+            if($errorCont->checkHaveSpecialChar($data->username,"Host Username")){
+                if($errorCont->checkField($data->username, 'Host Username', 10 , 20)){
+                    if($errorCont->checkIfMatch($data->password,$data->confirm_pw,"Host Password")){ //  <<<<
+                        if($errorCont->checkField($data->password, 'Host Password', 10 , 20)){ //  <<<<
+                            if($errorCont->checkField($data->confirm_pw, 'Host Retype Password', 10 , 20)){ //  <<<<
+                                $hosts->fname = $data->fname;
+                                $hosts->mname = $data->mname;
+                                $hosts->lname = $data->lname;
+                                $hosts->username = $data->username;
+                                $hosts->password =  $data->password;
 
-                                        if($hosts->registerHost()){
-                                            echo json_encode(
-                                                array('message' => 'Host Registration Success.')
-                                            );
-                                        }else{
-                                            echo json_encode(
-                                                array('message' => 'Host Registration Failed.')
-                                            );
-                                        }
-                                    }
-                                }  
+                                if($hosts->registerHost()){
+                                    echo json_encode(
+                                        array('message' => 'Host Registration Success.')
+                                    );
+                                }else{
+                                    echo json_encode(
+                                        array('message' => 'Host Registration Failed.')
+                                    );
+                                }
                             }
                         }
                     }

@@ -69,7 +69,7 @@
                 $this->errors['message'] = "All fields are required";
             }elseif(strlen($string) < $min_len){
                 $this->errors['field'] = $field;
-                $this->errors['message'] = $field." length must be minimum of ".$min_len;
+                $this->errors['message'] = $field." length has a minimum of ".$min_len;
             }elseif(strlen($string) >= $max_len){
                 $this->errors['field'] = $field;
                 $this->errors['message'] = $field." length must be maximum of ".$max_len;
