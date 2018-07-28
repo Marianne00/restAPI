@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 27, 2018 at 10:20 AM
+-- Generation Time: Jul 28, 2018 at 12:13 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -55,6 +55,30 @@ INSERT INTO `admins` (`admin_id`, `fname`, `mname`, `lname`, `username`, `passwo
 (14, 'cHRIS', 'DJAS', 'NJKSDN', 'DSJFNSKFSJK', 'JKDFSKJ'),
 (15, 'Edzell', '', 'Ramos', 'edzell1997', 'pooplockKK'),
 (16, 'Edzell', '', 'Ramos', 'edzell1997', 'sadddddddd');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `answer_choices`
+--
+
+CREATE TABLE `answer_choices` (
+  `choice_id` int(11) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  `quiz_id` int(11) NOT NULL,
+  `value` varchar(20) NOT NULL DEFAULT '200',
+  `order` char(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `answer_choices`
+--
+
+INSERT INTO `answer_choices` (`choice_id`, `question_id`, `quiz_id`, `value`, `order`) VALUES
+(1, 1, 1, '32', 'a'),
+(2, 1, 1, '11', 'b'),
+(3, 1, 1, '11', 'b'),
+(4, 1, 1, '34', 'd');
 
 -- --------------------------------------------------------
 
@@ -170,7 +194,7 @@ CREATE TABLE `quizzes` (
 
 INSERT INTO `quizzes` (`quiz_id`, `quiz_title`, `description`, `date_created`) VALUES
 (1, 'AngularJS Quiz', 'dsd', '2018-07-18 17:13:15'),
-(7, 'Philippine Literature Quiz', 'asddas', '2018-07-18 17:13:15'),
+(7, 'ss', '', '2018-07-18 17:13:15'),
 (8, 'Logical Quiz', 'sdas', '2018-07-18 17:13:15'),
 (9, 'History Quiz', 'sad', '2018-07-18 17:13:15'),
 (10, 'English Quiz', 'sda', '2018-07-18 17:13:15'),
@@ -289,6 +313,12 @@ ALTER TABLE `admins`
   ADD PRIMARY KEY (`admin_id`);
 
 --
+-- Indexes for table `answer_choices`
+--
+ALTER TABLE `answer_choices`
+  ADD PRIMARY KEY (`choice_id`);
+
+--
 -- Indexes for table `courses`
 --
 ALTER TABLE `courses`
@@ -351,6 +381,11 @@ ALTER TABLE `students`
 --
 ALTER TABLE `admins`
   MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT for table `answer_choices`
+--
+ALTER TABLE `answer_choices`
+  MODIFY `choice_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `courses`
 --
