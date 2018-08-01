@@ -104,5 +104,30 @@
             $stmt->execute();
             
             return $stmt;       
+    }
+
+    public function addGuessQuestion($quiz_id, $part_id, $question , $answer){
+        // query to be executed
+        $query = "INSERT INTO questions 
+                            SET
+                              quiz_id = :quiz_id,
+                              part_id = :part_id,
+                              question = :question,
+                              answer = :answer
+                              ";
+         //prepares the query
+         $stmt = $this->conn->prepare($query);
+
+         //binding of the query
+         $stmt->bindParam(':quiz_id', $quiz_id);
+         $stmt->bindParam(':part_id', $part_id);
+         $stmt->bindParam(':question', $question);
+         $stmt->bindParam(':answer', $answer);
+
+         if($stmt->execute()){
+            return true;
+         }else{
+            return false;
+         }
     }   
 }
