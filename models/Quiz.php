@@ -323,6 +323,29 @@
             
             return $stmt;
         }
+
+        public function blankGuessWord($word){
+
+            $numOfLoops = floor((strlen($word) * .5));
+            $array= array();
+            while ($numOfLoops > 0) {
+                $found = 0;
+                $randomLoc = rand(0,strlen($word)-1);  
+                array_push($array, $randomLoc);
+                for ($q=0; $q < count($array); $q++) { 
+                    if($randomLoc == $array[$q]){
+                        $found += 1;
+                    }
+                }
+                if($found == 1 && $word[$randomLoc] != " "){
+                    $word[$randomLoc] = "_";
+                }else{
+                    $numOfLoops++;
+                }
+                $numOfLoops--;
+            }
+            echo $word;
+        }
         
     }
 
