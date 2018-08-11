@@ -24,6 +24,15 @@
         public $position;
         public $totalParts;
         public $duration;
+        
+                
+        //Question Properties
+        public $question;
+        public $question_id;
+        public $answer_id;
+        public $values = array();
+        public $correct;
+        public $order = 'a';
 
 
         //Quiz Update Variables
@@ -190,6 +199,72 @@
             }
         }
         
+        
+          public function addQuestion() {
+        $insertQuery = "INSERT INTO questions 
+                        SET
+                            quiz_id = :quiz_id,
+                            part_id = :part_id,
+                            question = :question";
+        
+        $stmt = $this->conn->prepare($insertQuery);
+        $this->quizID = htmlspecialchars(strip_tags($this->quizID));
+        $this->totalParts = htmlspecialchars(strip_tags($this->part_id));
+        $this->duration = htmlspecialchars(strip_tags($this->question));    
+        
+        $stmt->bindParam(':quiz_id', $this->quizID);
+        $stmt->bindParam(':part_id', $this->part_id);
+        $stmt->bindParam(':question', $this->question);
+        
+        if($stmt->execute()){
+            if($this->insertChoices()){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+        
+    }
+
+
+    public function insertChoices() {
+        $counter = 0;
+        $insertQuery = "INSERT INTO answer_choices
+                        SET
+                            question_id = (select max(question_id) from questions),
+                            quiz_id = :quiz_id,
+                            value = :value,
+                            post = :order";
+        
+        $stmt = $this->conn->prepare($insertQuery);  
+        
+        foreach ($this->values as $val){
+            
+            $this->question_id = htmlspecialchars(strip_tags($this->question_id));
+            $this->quizID = htmlspecialchars(strip_tags($this->quizID));
+            $this->order = htmlspecialchars(strip_tags($this->order)); 
+            $val = htmlspecialchars(strip_tags($val));
+            $stmt->bindParam(':quiz_id', $this->quizID);
+            $stmt->bindParam(':value', $val);
+            $stmt->bindParam(':order', $this->order);
+            
+            if ($stmt->execute()){
+                $counter++;
+                $this->order++;
+            }
+        }
+        
+        if($counter==4){
+            return true;
+        }else{
+            return false;
+        }
+        
+        
+    }
+        
         public function searchQuiz() {
             //Select query
             $query =  "SELECT
@@ -346,6 +421,37 @@
             }
             echo $word;
         }
+        
+        
+        public function insertAnswer(){
+        
+            $query = "SELECT max(choice_id) from answer_choices WHERE value = '$this->correct'";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            $result = $stmt;
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                $this->answer_id = $row['max(choice_id)'];
+            }
+
+            $query = "SELECT max(question_id) FROM questions";
+             $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            $result = $stmt;
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                $this->question_id = $row['max(question_id)'];
+            }
+
+            $updateQuery = "UPDATE questions set answer = '$this->answer_id' WHERE question_id = $this->question_id";
+            $stmt = $this->conn->prepare($updateQuery);
+
+            if($stmt->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        
+    }
+
         
     }
 
