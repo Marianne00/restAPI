@@ -225,7 +225,7 @@
         }
         
     }
-          public function addQuestionToTrueOrFalse() {    
+          public function GenericAddQuestion() {    
         $insertQuery = "INSERT INTO questions 
                         SET
                             quiz_id = :quiz_id,
@@ -242,7 +242,7 @@
         $stmt->bindParam(':question', $this->question);
         
         if($stmt->execute()){
-            if($this->insertToAnsweChoices()){
+            if($this->GenericinsertToAnswerChoices()){
                 return true;
             }
         }else{
@@ -286,7 +286,7 @@
         
         
     }
-        public function insertToAnsweChoices() {
+        public function GenericinsertToAnswerChoices() {
         $insertQuery = "INSERT INTO answer_choices
                         SET
                             question_id = (select max(question_id) from questions),
@@ -494,7 +494,7 @@
             }  
     }
         
-        public function insertAnswerforTrueorFalse(){
+        public function GenericInsertQuestion(){
             $query = "SELECT max(choice_id) from answer_choices WHERE value = '$this->correct'";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();

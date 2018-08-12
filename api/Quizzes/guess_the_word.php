@@ -1,41 +1,44 @@
-<?php 
-   //Headers
+<?php
+    //Headers
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
     header('Access-Control-Allow-Methods: POST');
     header('Access-Control-Allow-Headers: Access-Control-Allow-Methods, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+
     include_once '../../config/Database.php';
-    include_once '../../models/Hosts.php';
+    include_once '../../models/Quiz.php';
     include_once '../../controllers/ErrorController.php';
-    //Instantiate Database Class
+
+    //instantiation
     $database = new Database();
     $db = $database->connect();
-    //Instantiate Users Class
-    $hosts = new Hosts($db);
-    //Instatiate Error Controller
+    $quiz = new Quiz($db);
     $errorCont = new ErrorController();
-    //Get Raw Data
     $data = json_decode(file_get_contents('php://input'));
 
-    // di ko na vavalidate yung quiz_id saka part_id kasi sa form na matic mangagaling yon
-   	if($errorCont->checkField($data->question,"Question Field",1,1000)){
-   		if($errorCont->checkField($data->answer,"Answer Field",1,100)){
-   			
-   			if ($hosts->addGuessQuestion($data->quiz_id, $data->part_id, $data->question , $data->answer) ){
-   				echo json_encode(
-                	array('message' => 'Question Successfully Added')
-                );
-   			}else{
-   				echo json_encode(
-                	array('message' => 'Question Adding Failed')
-                );
-   			}
-   		}
-   	}
+    if($errorCont->checkField($data->question, 'Question', 0, 1001)){
+        if($errorCont->checkField($data->correct, 'Answer', 0, 201)){
+	        
+	        $quiz->quizID = $data->quiz_id;
+	        $quiz->part_id = $data->part_id;
+	        $quiz->question = $data->question;
+	        $quiz->correct = $data->correct;
 
-   	if($errorCont->errors != null){
-   		echo json_decode( $errorCont->errors );
-   	}
+	        if ($quiz->GenericAddQuestion()){
+	        	if($quiz->GenericInsertQuestion()){
+	        		echo json_encode( array('message' => 'Question Added Successfully' ));
+	        	}else{
+	        		echo json_encode( array('message' => 'There is an error in adding correct answer' ));
+	        	}
+	        }else{
+	        	echo json_encode( array('message' => 'There is an error in adding question' ));
+	        }
 
+        }
+    }
+
+    if($errorCont->errors != null){
+    	echo json_encode($errorCont->errors);
+    }
 
 ?>
