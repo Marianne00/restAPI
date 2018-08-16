@@ -90,7 +90,7 @@
         public function checkIfMatch($checkee1,$checkee2,$field){
             if( $checkee1 != $checkee2 ){
                 $this->errors['field'] = $field;
-                $this->errors['message'] = "Does no match";
+                $this->errors['message'] = $field ."Does no match";
             }else{
                 return true;
             }
