@@ -27,7 +27,6 @@
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             extract($row);
             $quiz_item = array (
-                'Quiz_ID:' => $quiz_id,
                 'Quiz_Title:' => $quiz_title,
                 'Quiz_Parts:' => $partsperQuiz
             );

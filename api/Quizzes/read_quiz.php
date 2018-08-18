@@ -27,11 +27,10 @@
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             extract($row);
             $quiz_item = array (
-                'quizID' => $quizID,
-                'quizTitle' => $quizTitle,
-                'quizParts' => $parts,
-                'date_created' => $date_created, 
-                'quizAdmin' => $fname
+                'Quiz Title' => $quiz_title,
+                'Part Title' => $description,
+                'Date Created' => $date_created, 
+                'Quiz Admin' => $quizAdmin
             );
         
             //Push to data array 

@@ -39,7 +39,12 @@
         public $new_part_title;
         public $new_type_id;
         public $part_id;
-
+        
+        //Question Choices Variables
+         public $a;
+         public $b;
+         public $c;
+         public $d;
 
         // Constructor
         public function __construct($db) {
@@ -113,16 +118,21 @@
         public function readQUiz() {
             //Create query
             $query = "SELECT 
-            a.quizID,
-            a.quizTitle,
-            a.parts,
+            a.quiz_title,
+            a.description,
             a.date_created, 
-            b.fname 
+                (
+                    SELECT CONCAT(fname,' ',mname,' ',lname) 
+                    FROM admins
+                    WHERE
+                    admin_id = a.admin_id
+                )as quizAdmin
             FROM 
-            quiz a left join admins b 
-            on a.quizID = b.admin_id
+            quizzes a 
+            WHERE
+            a.admin_id =".$_GET['admin_id']."
                 ORDER BY
-                    a.quizID ASC";
+                    a.quiz_id ASC";
             
             //Prepare Statement
             $stmt = $this->conn->prepare($query);
@@ -132,7 +142,96 @@
             
             return $stmt;
         }
-        
+        //Read Questions
+        public function readQuestions() {
+            //Create query
+        $query = " SELECT 
+                    a.question,
+                    (
+                        SELECT value from answer_choices
+                        WHERE a.answer = choice_id
+                    )as rightAnswer,
+                    (
+                        SELECT 
+                        value
+                        from answer_choices  
+                        WHERE
+                        a.question_id = question_id
+                        AND post = 'a' OR 'A'
+                    )as choice1,
+                     (
+                        SELECT value 
+                        from answer_choices  
+                        WHERE
+                        a.question_id = question_id
+                        AND post = 'b' OR 'B'
+                    )as choice2,
+                     (
+                        SELECT value 
+                        from answer_choices  
+                        WHERE
+                        a.question_id = question_id
+                        AND post = 'c' OR 'C'
+                    )as choice3,
+                     (
+                        SELECT value 
+                        from answer_choices  
+                        WHERE
+                        a.question_id = question_id
+                        AND post = 'd' OR 'D'
+                    )as choice4
+                    FROM
+                    questions a,
+                    quizzes b
+                    WHERE 
+                    b.admin_id LIKE '%".$_GET['admin_id']."%'
+                    AND
+                    b.quiz_id LIKE '%".$_GET['quiz_id']."%'
+                    AND
+                    a.part_id LIKE '%".$_GET['part_id']."%'
+                    ";
+            
+            //Prepare Statement
+            $stmt = $this->conn->prepare($query);
+              
+            //Execute Query
+            $stmt->execute();
+            
+            return $stmt;
+        }
+         public function selectTypeID() {
+            //Create query
+        $query = "SELECT 
+                  a.type_id 
+                  FROM 
+                  quiz_parts a, 
+                  questions b 
+                  WHERE 
+                  a.part_id = b.part_id ";
+            //Prepare Statement
+            $stmt = $this->conn->prepare($query);
+              
+            //Execute Query
+            $stmt->execute();
+            
+            return $stmt;
+        }
+        public function readChoices() {
+            //Create query
+            $query = "SELECT 
+            a.value
+            FROM 
+            answer_choices a left join  questions b
+            on a.question_id = b.question_id";
+           
+            //Prepare Statement
+            $stmt = $this->conn->prepare($query);
+              
+            //Execute Query
+            $stmt->execute();
+            
+            return $stmt;
+        }
          //Get Single Quiz
          public function singleQuiz() {
             //Create query
@@ -311,7 +410,6 @@
         public function searchQuiz() {
             //Select query
             $query =  "SELECT
-                        a.quiz_id, 
                         a.quiz_title, 
                        (
                        SELECT Count(quiz_id) FROM quiz_parts
@@ -320,6 +418,10 @@
                        FROM 
                        quizzes a
                             WHERE 
+                                a.admin_id LIKE '%".$_GET['admin_id']."%'
+                                AND
+                                a.quiz_id LIKE '%".$_GET['quiz_id']."%'
+                                AND
                                 a.quiz_title LIKE '%".$_GET['quiz_title']."%'";
             
              //Prepare Statement   
@@ -428,9 +530,16 @@
             a.duration,
             b.type
            FROM 
+           quizzes c,
             quiz_parts a left join question_types b 
             on a.type_id = b.type_id
                 WHERE 
+                  c.admin_id LIKE '%".$_GET['admin_id']."%'
+                  AND
+                  a.quiz_id LIKE '%".$_GET['quiz_id']."%'
+                  AND
+                  a.part_id LIKE '%".$_GET['part_id']."%'
+                  AND
                   a.part_title LIKE '%".$_GET['part_title']."%'";
             
              //Prepare Statement   
