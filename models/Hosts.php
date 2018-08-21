@@ -124,5 +124,33 @@
          }else{
             return false;
          }
+    }
+
+    public function listCourses(){
+      $query = "SELECT * FROM `courses`";
+      $stmt = $this->conn->prepare($query);
+      $stmt->execute();
+      return $stmt;
+    }
+
+    public function listSections(){
+      $query = "SELECT * FROM `sections`";
+      $stmt = $this->conn->prepare($query);
+      $stmt->execute();
+      return $stmt;
+    }
+
+    public function listNamesA(){
+      $query = "SELECT * FROM `admins`";
+      $stmt = $this->conn->prepare($query);
+      $stmt->execute();
+      return $stmt;
+    }
+
+    public function listNamesS(){
+      $query = "SELECT * FROM `students`";
+      $stmt = $this->conn->prepare($query);
+      $stmt->execute();
+      return $stmt;
     }   
 }

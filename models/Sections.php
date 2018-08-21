@@ -40,7 +40,7 @@
         
         public function getCourseID() {
             $query = "SELECT course_id FROM courses
-                        WHERE course = ?";
+                        WHERE course_id = ?";
             
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(1, $this->course);

@@ -33,7 +33,7 @@
                                 $hosts->password =  $data->password;
 
                                 if($hosts->registerHost()){
-                                    echo json_encode(array('message' => 'Host Registration Success.'));
+                                    echo json_encode(array('success' => 'Host Registration Success.'));
                                 }else{
                                     echo json_encode(array('message' => 'Host Registration Failed.'));
                                 }
