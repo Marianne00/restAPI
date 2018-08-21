@@ -39,7 +39,6 @@
         public function registerHost(){
             $insertQuery = "INSERT INTO admins 
                             SET
-                              admin_id = :admin_id,
                               fname = :fname,
                               mname = :mname,
                               lname = :lname,
@@ -51,7 +50,6 @@
             $stmt = $this->conn->prepare($insertQuery);
             
             //Clean inputted data
-            $this->admin_id = htmlspecialchars(strip_tags($this->admin_id));
             $this->fname = htmlspecialchars(strip_tags($this->fname));
             $this->mname = htmlspecialchars(strip_tags($this->mname));
             $this->lname = htmlspecialchars(strip_tags($this->lname));
@@ -59,7 +57,6 @@
             $this->password = htmlspecialchars(strip_tags($this->password));
             
             //Bind paramaters
-            $stmt->bindParam(':admin_id', $this->admin_id);
             $stmt->bindParam(':fname', $this->fname);
             $stmt->bindParam(':mname', $this->mname);
             $stmt->bindParam(':lname', $this->lname);
@@ -71,9 +68,7 @@
             if($stmt->execute()){
                 return true;
             }else{
-                
-            printf("Error: %s".\n, $stmt->err);
-            return false;
+                return false;
             }
 
 
@@ -129,5 +124,33 @@
          }else{
             return false;
          }
+    }
+
+    public function listCourses(){
+      $query = "SELECT * FROM `courses`";
+      $stmt = $this->conn->prepare($query);
+      $stmt->execute();
+      return $stmt;
+    }
+
+    public function listSections(){
+      $query = "SELECT * FROM `sections`";
+      $stmt = $this->conn->prepare($query);
+      $stmt->execute();
+      return $stmt;
+    }
+
+    public function listNamesA(){
+      $query = "SELECT * FROM `admins`";
+      $stmt = $this->conn->prepare($query);
+      $stmt->execute();
+      return $stmt;
+    }
+
+    public function listNamesS(){
+      $query = "SELECT * FROM `students`";
+      $stmt = $this->conn->prepare($query);
+      $stmt->execute();
+      return $stmt;
     }   
 }

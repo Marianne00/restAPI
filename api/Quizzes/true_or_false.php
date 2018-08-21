@@ -22,8 +22,8 @@
                  $quiz->question = $data->question;
                  $quiz->correct = $data->correct;
                              
-                    if($quiz->addQuestionToTrueOrFalse()){
-                        if($quiz->insertAnswerforTrueorFalse()){
+                    if($quiz->GenericAddQuestion()){
+                        if($quiz->GenericInsertQuestion()){
                             echo json_encode(
                                 array(
                                     'message' => 'Question added successfully'

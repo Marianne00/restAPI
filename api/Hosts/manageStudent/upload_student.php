@@ -15,8 +15,6 @@
     $users = new Users($db); 
     $errorCont = new ErrorController();
 
-    $errors = array();
-
     //Get Raw Data
     $data = json_decode(file_get_contents('php://input'));
 

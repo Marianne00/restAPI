@@ -1,59 +1,35 @@
 <?php 
-	//Headers
-	header('Access-Control-Allow-Origin: *');
-	header('Content-Type: application/json');
-	include_once '../../config/Database.php';
-	include_once '../../models/Hosts.php';
+  header('Access-Control-Allow-Origin: *');
+  header('Content-Type: application/json');
+  header('Access-Control-Allow-Methods: POST');
+  header('Access-Control-Allow-Headers: Access-Control-Allow-Methods, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
 
-<<<<<<< HEAD
-    $errors = array();
+      include_once '../../config/Database.php';
+    include_once '../../models/Hosts.php';
+    include_once '../../controllers/ErrorController.php';
 
-=======
->>>>>>> b18f4c6cbd8b81b518ce9cc3d5fd742967a0e137
-	//Instantiate Database Class
 	$database = new Database();
 	$db = $database->connect();
-
-	//Instantiate Hosts
 	$hosts = new Hosts($db);
-
+  $errorCont = new ErrorController();
 	//GETS THE SENT DATA
 	$data = json_decode(file_get_contents('php://input'));
 
-<<<<<<< HEAD
-    if($data->sent_username == ""){
-       echo json_encode (array(
-        "field" => "username",
-        "message" => "all fields are required"
-       ));
-    }elseif($data->sent_password == ""){
-        echo json_encode (array(
-        "field" => "password",
-        "message" => "all fields are required"
-       ));
-    }else{
+  if($errorCont->checkField($data->sent_username,"Username",1,20)){
+    if($errorCont->checkField($data->sent_password,"Password",1,20)){
         $hosts->username = $data->sent_username; 
         $hosts->password = $data->sent_password;
-        if ($hosts->logInHost()){
-            echo json_encode (array(
-                "message" => "Access granted"
-            ));
+
+        if($hosts->logInHost()){
+            echo json_encode(array('success' => 'Host Login Success.'));
         }else{
-             echo json_encode (array(
-                "message" => "Access denied"
-            ));
+            echo json_encode(array('error' => 'Login Failed.'));
         }
-
     }
+  }
 
-
-  	
-  	
-=======
-	//SETS THE VARIABLES OF OBJ HOST FOR EXECUTING QUERY
-    $hosts->username = $data->sent_username; 
-    $hosts->password = $data->sent_password;
-  	
-  	echo ($hosts->logInHost());
->>>>>>> b18f4c6cbd8b81b518ce9cc3d5fd742967a0e137
+  if ($errorCont->errors != null) {
+    echo json_encode($errorCont->errors);
+  }
+    
 ?>
