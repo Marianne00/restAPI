@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
+-- version 4.8.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 11, 2018 at 07:20 PM
--- Server version: 10.1.21-MariaDB
--- PHP Version: 5.6.30
+-- Generation Time: Aug 21, 2018 at 02:26 PM
+-- Server version: 10.1.32-MariaDB
+-- PHP Version: 7.2.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -46,7 +48,10 @@ INSERT INTO `admins` (`admin_id`, `fname`, `mname`, `lname`, `username`, `passwo
 (24, 'Chris', '', 'Manuel', 'chrisjoshua1889', 'chrismanuel'),
 (25, 'marianne', 'abanico', 'de asis', 'marianneisneckdeep', 'mariannemarianne'),
 (26, 'russel', 'de asis', 'catajan', 'russel0401', 'russelowen'),
-(27, 'russel', 'de asis', 'catajan', 'russel0401', 'asaasaasaasa');
+(27, 'russel', 'de asis', 'catajan', 'russel0401', 'asaasaasaasa'),
+(28, 'asd', 'asd', 'asd', 'asdsssssss', 'ssssssssss'),
+(29, 'aaaaaaasd', 'asdasdasdasd', 'asdasdasdasd', 'asdasdasdasdasd', 'qweqweqweqwe'),
+(30, 'sss', 'sss', 'sss', 'ssssssssss', 'ssssssssss');
 
 -- --------------------------------------------------------
 
@@ -224,7 +229,8 @@ INSERT INTO `sections` (`section_id`, `course_id`, `section`) VALUES
 (5, 1, 'BSIT 3I-G2'),
 (6, 1, 'BSIT 3C-G2'),
 (7, 1, 'BSIT 3K-G1'),
-(8, 1, 'BSIT 4G-G1');
+(8, 1, 'BSIT 4G-G1'),
+(9, 2, 'sss');
 
 -- --------------------------------------------------------
 
@@ -260,16 +266,21 @@ CREATE TABLE `students` (
   `fname` varchar(100) NOT NULL,
   `mname` varchar(100) DEFAULT NULL,
   `lname` varchar(100) NOT NULL,
-  `status` varchar(20) NOT NULL DEFAULT 'INACTIVE'
+  `status` varchar(20) NOT NULL DEFAULT 'INACTIVE',
+  `course_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`student_id`, `section_id`, `fname`, `mname`, `lname`, `status`) VALUES
-('2011154565', 1, 'SAD', 'DASD', 'asd', 'INACTIVE'),
-('2015100139', 1, 'Marianne', 'Abanico', 'De Asis', 'INACTIVE');
+INSERT INTO `students` (`student_id`, `section_id`, `fname`, `mname`, `lname`, `status`, `course_id`) VALUES
+('', 1, 'qweqwe', 'qeqweqwe', 'qwqweqwe', 'INACTIVE', 1),
+('2011154565', 1, 'SAD', 'DASD', 'asd', 'INACTIVE', 0),
+('2015100139', 1, 'Marianne', 'Abanico', 'De Asis', 'INACTIVE', 0),
+('20151008', 1, 'Chris Joshua', 'Gonzales', 'Manuel', 'INACTIVE', 1),
+('234234', 2, '234234', '234234', '234234', 'INACTIVE', 0),
+('95959595', 2, 'ssssssssssss', 'ssssssssssssssss', 'ssssssssssssssss', 'INACTIVE', 2);
 
 --
 -- Indexes for dumped tables
@@ -343,47 +354,57 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
 --
 -- AUTO_INCREMENT for table `answer_choices`
 --
 ALTER TABLE `answer_choices`
   MODIFY `choice_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+
 --
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
   MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
   MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
 --
 -- AUTO_INCREMENT for table `question_types`
 --
 ALTER TABLE `question_types`
   MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT for table `quizzes`
 --
 ALTER TABLE `quizzes`
   MODIFY `quiz_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
 --
 -- AUTO_INCREMENT for table `quiz_parts`
 --
 ALTER TABLE `quiz_parts`
   MODIFY `part_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+
 --
 -- AUTO_INCREMENT for table `sections`
 --
 ALTER TABLE `sections`
-  MODIFY `section_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `section_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
 --
 -- AUTO_INCREMENT for table `sections_handled`
 --
 ALTER TABLE `sections_handled`
   MODIFY `handling_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

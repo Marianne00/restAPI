@@ -44,14 +44,14 @@ include_once '../../controllers/ErrorController.php';
 
 
   //LALAGAY SA ARRAY YUNG SA SECTION
-  if($rowcountCourses>0){
+if($rowcountSections>0){
     $dara_arr['sections'] = array();
 
     while ($row = $resultSections->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
         $quiz_item = array (
-            'section_id' => $course_id,
-            'course_id' => $course,
+            'section_id' => $section_id,
+            'course_id' => $course_id,
             'section' => $section
         );
         array_push($dara_arr['sections'], $quiz_item);
@@ -72,6 +72,24 @@ include_once '../../controllers/ErrorController.php';
       );
 
       array_push($dara_arr['names']['admins'],$name_item);
+    }
+  }
+
+  if($rowcountNamesS>0){
+    $dara_arr['names']['students'] = array();
+
+    while ($row = $resultNamesS->fetch(PDO::FETCH_ASSOC)) {
+      extract($row);
+      $name_item = array(
+        'student_id' => $student_id,
+        'firstname' => $fname,
+        'middlename' => $mname,
+        'lastname' => $lname,
+        'section' => $section,
+        'course' => $course
+      );
+
+      array_push($dara_arr['names']['students'], $name_item);
     }
   }
   

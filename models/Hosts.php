@@ -148,7 +148,9 @@
     }
 
     public function listNamesS(){
-      $query = "SELECT * FROM `students`";
+      $query = "SELECT s.student_id, s.fname, s.mname, s.lname, sec.section,c.course FROM 
+                students s inner join sections sec on s.section_id = sec.section_id
+                inner join courses c on s.course_id = c.course_id";
       $stmt = $this->conn->prepare($query);
       $stmt->execute();
       return $stmt;
