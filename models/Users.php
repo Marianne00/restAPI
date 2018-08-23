@@ -122,9 +122,7 @@
             if($stmt->execute()){
                 return true;
             }else{
-                
-            printf("Error: %s".\n, $stmt->err);
-            return false;
+                return false;
             }
  
         }
@@ -135,9 +133,9 @@
             $stmt->bindParam(1, $stud_id);
             $stmt->execute();
             if($stmt->rowCount()==0){
-                return false;
-            }else{
                 return true;
+            }else{
+                return false;
             }
             
         }
@@ -178,9 +176,7 @@
             if($stmt->execute()){
                 return true;
             }else{
-                
-            printf("Error: %s".\n, $stmt->err);
-            return false;
+                return false;
             }
  
         }

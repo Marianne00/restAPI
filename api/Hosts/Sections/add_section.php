@@ -22,7 +22,7 @@
         if($secs->validateSection()){
             if($secs->addSection()){
                 echo json_encode(
-                    array('message' => 'Section successfully added.')
+                    array('success' => 'Section successfully added.')
                 );
             }
         }else{

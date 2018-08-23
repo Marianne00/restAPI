@@ -18,54 +18,29 @@
     //Get Raw Data
     $data = json_decode(file_get_contents('php://input'));
 
+    if($users->verifyStudentID($data->student_id)){  
+        if($errorCont->checkField($data->fname,"First Name",1,101)){
+            if($errorCont->checkField($data->fname,"Lastname Name",1,101)){
+                
+                $users->student_id = $data->student_id;
+                $users->section_id = $data->section_id;
+                $users->course_id = $data->course_id;
+                $users->fname = $data->fname;
+                $users->mname = $data->mname;
+                $users->lname = $data->lname;
 
-    if($errorCont->checkField($data->student_id, 'Student ID', 10, 11)){
-         if($errorCont->checkField($data->section_name, 'Section Name', 0, 100)){
-             if($errorCont->checkField($data->fname, 'First Name', 1, 100)){
-                 if($errorCont->checkField($data->lname, 'Last Name', 1, 100)){
-                     if($errorCont->validateStudentID($data->student_id, 'Student_ID')){
-                        if($errorCont->validateName($data->fname, $data->mname, $data->lname)){
-                            if(!$users->verifyStudentID($data->student_id)){
-                                $users->student_id = $data->student_id;
-                                $users->section_name = $data->section_name;
-                                $users->fname = $data->fname;
-                                $users->mname = $data->mname;
-                                $users->lname = $data->lname;
-
-                                $users->getStudentSection();
-
-                                //Create
-                                if ($users->registerStudent()){
-                                    echo json_encode(
-                                        array('message' => 'Student registered successfully.')
-                                    );
-                                }else{
-                                    echo json_encode(
-                                        array('message' => 'Student registration failed.')
-                                    ); 
-                                }
-                            
-                            }else{
-                                echo json_encode(
-                                    array(
-                                        'field' => 'Student ID',
-                                        'message' => 'Student ID already exists'
-                                    )
-                                );
-                            }
-                        }
-                    }
-                 }
-             }
-         }
+                if($users->registerStudent()){
+                    echo json_encode(array('success' => 'Student Insertion Succeed.'));
+                }else{
+                    echo json_encode(array('error' => 'Student Insertion Failed.'));
+                }
+            }
+        }
+    }else{
+        echo json_encode(array('error' => 'Student ID is already in use.'));
     }
 
-
-       if($errorCont->errors != null){
-        echo json_encode(
-            $errorCont->errors
-        );
+    if($errorCont->errors != null){
+        echo json_encode($errorCont->errors);
     }
-    
-    
     
