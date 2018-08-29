@@ -4,8 +4,45 @@
         
         public $errors = array();
         public $name;
+    /*    private $requests;
+        private $err
+        ors;
+        
+        public function __construct($requests, $validations) {
+            foreach($validations as $validation) {
+                
+                $data = $validation; // ['fname' => 'required|numbers']
+                $field = key($validation); // fname
+                $validationFunctions = explode('|', $validation[0]);
+                
+                foreach($validationFunctions as $function) {
+                    $this->$function($_POST[$field]);
+                }
+            }
+        }
+        
+        public function getErrors() {
+            return $this->errors;
+        }
+        
+        private function required($value) {
+            // Logic
+            
+            // If logic is false, insert error in $this->errors;
+            
+            return 
+        }
+        
+        $validation = new ErrorController($_POST, [
+            'fname' => 'required|numbers',
+            'lastname' => 'required|numbers',
+            'password' => 'required|min'
+        ]);
         
         
+        private function required() {
+            return true or false;
+        }*/
         public function UpStudentFields($student_id, $section_name, $fname, $lname){
             if($student_id == ""){
                 $this->errors['field'] = "Student ID";

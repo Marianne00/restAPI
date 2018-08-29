@@ -1,5 +1,4 @@
 <?php
-
     class Hosts {
         //Database Properties 
         private $conn;
@@ -83,7 +82,9 @@
         $stmt->execute([ 'username' => $this->username , 'password' => $this->password]);
 
         //IF MAY RESULT
-        if($stmt->fetch(PDO::FETCH_ASSOC)){
+        if($stmt->fetch(PDO::FETCH_ASSOC)){ 
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            setcookie('admin_id', $row['admin_id'], time() + (86400), "/");
             return true;
         }else{
             return false;

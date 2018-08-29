@@ -12,7 +12,7 @@
 
     //Instantiate Quiz Class
     $quiz = new Quiz($db); 
-
+    $quiz->admin_id = $_GET['admin_id'];
     //Quiz Query
     $result = $quiz->readQuiz();
         
@@ -27,9 +27,8 @@
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             extract($row);
             $quiz_item = array (
-                'quizID' => $quizID,
-                'quizTitle' => $quizTitle,
-                'quizParts' => $parts,
+                'quizID' => $quiz_id,
+                'quizTitle' => $quiz_title,
                 'date_created' => $date_created, 
                 'quizAdmin' => $fname
             );

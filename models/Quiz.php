@@ -113,16 +113,16 @@
         public function readQUiz() {
             //Create query
             $query = "SELECT 
-            a.quizID,
-            a.quizTitle,
-            a.parts,
+            a.quiz_id,
+            a.quiz_title,
             a.date_created, 
             b.fname 
             FROM 
-            quiz a left join admins b 
-            on a.quizID = b.admin_id
-                ORDER BY
-                    a.quizID ASC";
+            quizzes a left join admins b 
+            on a.admin_id = b.admin_id
+                
+            WHERE b.admin_id = $this->admin_id ORDER BY
+                    a.quiz_id ASC";
             
             //Prepare Statement
             $stmt = $this->conn->prepare($query);
@@ -194,7 +194,6 @@
             if ($stmt->execute()) {
                 return true;
             } else {
-                printf("Error %s". \n, $stmt->err);
                 return false;
             }
         }

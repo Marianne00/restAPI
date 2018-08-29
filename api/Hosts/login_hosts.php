@@ -1,19 +1,20 @@
 <?php 
+  session_start();
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json');
   header('Access-Control-Allow-Methods: POST');
   header('Access-Control-Allow-Headers: Access-Control-Allow-Methods, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
 
-      include_once '../../config/Database.php';
-    include_once '../../models/Hosts.php';
-    include_once '../../controllers/ErrorController.php';
+  include_once '../../config/Database.php';
+  include_once '../../models/Hosts.php';
+  include_once '../../controllers/ErrorController.php';
 
-	$database = new Database();
-	$db = $database->connect();
-	$hosts = new Hosts($db);
+  $database = new Database();
+  $db = $database->connect();
+  $hosts = new Hosts($db);
   $errorCont = new ErrorController();
-	//GETS THE SENT DATA
-	$data = json_decode(file_get_contents('php://input'));
+    //GETS THE SENT DATA
+  $data = json_decode(file_get_contents('php://input'));
 
   if($errorCont->checkField($data->sent_username,"Username",1,20)){
     if($errorCont->checkField($data->sent_password,"Password",1,20)){
