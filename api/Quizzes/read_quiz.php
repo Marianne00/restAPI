@@ -21,25 +21,24 @@
 
     if($rowcount>0){
         // Users array
-        $quiz_arr = array();
         $quiz_arr['data'] = array();
+       // $quiz_arr['data'] = array();
         
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             extract($row);
             $quiz_item = array (
-                'quizID' => $quizID,
-                'quizTitle' => $quizTitle,
-                'quizParts' => $parts,
+                'quizID' => $quiz_id,
+                'quizTitle' => $quiz_title,
                 'date_created' => $date_created, 
                 'quizAdmin' => $fname
             );
         
             //Push to data array 
-            array_push($quiz_arr['data'], $quiz_item);
+           array_push($quiz_arr['data'], $quiz_item);
         }
         
         //Convert to JSON
-        echo json_encode($quiz_arr);
+        echo json_encode($quiz_arr['data']);
     }else{
         // No students
         echo json_encode(array(

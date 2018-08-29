@@ -113,16 +113,15 @@
         public function readQUiz() {
             //Create query
             $query = "SELECT 
-            a.quizID,
-            a.quizTitle,
-            a.parts,
+            a.quiz_id,
+            a.quiz_title,
             a.date_created, 
             b.fname 
             FROM 
-            quiz a left join admins b 
-            on a.quizID = b.admin_id
+            quizzes a left join admins b 
+            on a.quiz_id = b.admin_id
                 ORDER BY
-                    a.quizID ASC";
+                    a.quiz_id ASC";
             
             //Prepare Statement
             $stmt = $this->conn->prepare($query);
