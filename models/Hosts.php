@@ -14,6 +14,7 @@
         public $username;
         public $password;
         public $confirm_password;
+        public $admin_id_blah;
         
         //Error Code Properties
         /*
@@ -83,7 +84,9 @@
         $stmt->execute([ 'username' => $this->username , 'password' => $this->password]);
 
         //IF MAY RESULT
-        if($stmt->fetch(PDO::FETCH_ASSOC)){
+        if( $row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            extract($row);
+            $this->admin_id_blah = $admin_id;
             return true;
         }else{
             return false;

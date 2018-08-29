@@ -21,7 +21,7 @@
         $hosts->password = $data->sent_password;
 
         if($hosts->logInHost()){
-            echo json_encode(array('success' => 'Host Login Success.'));
+            echo json_encode(array('success' => 'Host Login Success.' , 'session' => $hosts->admin_id_blah ));
         }else{
             echo json_encode(array('error' => 'Login Failed.'));
         }
