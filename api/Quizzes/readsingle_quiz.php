@@ -14,18 +14,17 @@
     $quiz = new Quiz($db); 
 
     //Get ID from URL
-    $quiz->quizTitle = isset($_GET['quizTitle']) ? $_GET['quizTitle'] : die();
+    $quiz->quizID = isset($_GET['quizID']) ? $_GET['quizID'] : die();
     
     //Get Post
-    $quiz->singleQuiz();
+    $result = $quiz->singleQuiz();
 
-    //Create array
-    $quiz_arr = array(
-        'quizID' => $quiz->quizID,
-        'quizTitle' => $quiz->quizTitle,
-        'quizParts' => $quiz->parts,
-        'date_created' => $quiz->date_created,
-        'quizAdmin' => $quiz->fname
-    );
+    $row = $result->fetch(PDO::FETCH_ASSOC);
 
-    print_r(json_encode($quiz_arr));
+    $quiz_item = array (
+                'quiz_title' =>$row['quiz_title'],
+                'description' => $row['description'],
+                'date_created' => $row['date_created'] 
+            );
+    
+    echo json_encode($quiz_item);

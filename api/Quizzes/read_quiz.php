@@ -12,7 +12,7 @@
 
     //Instantiate Quiz Class
     $quiz = new Quiz($db); 
-
+    $quiz->admin_id = $_GET['admin_id'];
     //Quiz Query
     $result = $quiz->readQuiz();
         
