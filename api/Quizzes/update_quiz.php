@@ -16,21 +16,20 @@
 
     //Get Raw Data
     $data = json_decode(file_get_contents('php://input'));
-    if($errorCont->checkHaveSpecialChar($data->quizTitle,"New Quiz Title")){
+
         if($errorCont->checkField($data->quizTitle, "New Quiz Title",1,250)){
-            if($errorCont->checkField($data->description, "New Quiz Description",20,300)){
+            if($errorCont->checkField($data->description, "New Quiz Description",1,300)){
                 $quiz->quizID = $data->quizID;
                 $quiz->quizTitle = $data->quizTitle;
                 $quiz->description = $data->description;
 
                 if($quiz->updateQuiz()){
-                    echo json_encode( array('message' => 'Updating of Quiz Success.') );
+                    echo json_encode( array('success' => 'Updating of Quiz Success.') );
                 }else{
                     echo json_encode( array('message' => 'Updating of Quiz Failed.') );
                 }
             }
         }
-    }
     
     if($errorCont->errors != null){
         echo json_encode( $errorCont->errors );

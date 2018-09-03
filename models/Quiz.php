@@ -46,10 +46,11 @@
             $this->conn = $db;
         }
 
-        public function addQuiz() {
+       public function addQuiz() {
             $insertQuery = "INSERT INTO quizzes
                             SET
                               quiz_title = :quizTitle,
+                              admin_id = :admin_id,
                               description = :description
                               ";
 
@@ -57,72 +58,37 @@
 
             $this->quizTitle = htmlspecialchars(strip_tags($this->quizTitle));
             $this->description = htmlspecialchars(strip_tags($this->description));
+            $this->admin_id = htmlspecialchars(strip_tags($this->admin_id));
 
             // Bind parameters
             $stmt->bindParam(':quizTitle', $this->quizTitle);
             $stmt->bindParam(':description', $this->description);
+            $stmt->bindParam(':admin_id', $this->admin_id);
             
   
             if ($stmt->execute()) {
-                $this->toMiddleMan();
                 return true;
             } else {
-                printf("Error %s". \n, $stmt->err);
                 return false;
             }
         }
 
-        public function toMiddleMan() {
-            // Get latest created quiz
-            $query = "SELECT MAX(quiz_id) FROM quizzes";
-
-            // Prepare Statement
-            $stmt = $this->conn->prepare($query);
-
-            // Execute Query
-            $stmt->execute();
-
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            $this->quizID = $row['MAX(quiz_id)'];
-
-            // Middle Man ;-;
-            $insertQuery = "INSERT INTO hosted_quizzes
-                            SET
-                              quiz_id = :quiz_id,
-                              admin_id = :admin_id
-                              ";
-
-            // Prepare Statement
-            $stmt = $this->conn->prepare($insertQuery);
-
-            // Bind parameters
-            $stmt->bindParam(':quiz_id', $this->quizID);
-            $stmt->bindParam(':admin_id', $this->kunware_session);
-
-            // Execute
-            if ($stmt->execute()) {
-                return true;
-            } else {
-                printf("Error %s". \n, $stmt->err);
-                return false;
-            }
-        }
+        
         
         //Read Quiz
         public function readQUiz() {
             //Create query
             $query = "SELECT 
-            a.quizID,
-            a.quizTitle,
-            a.parts,
+            a.quiz_id,
+            a.quiz_title,
             a.date_created, 
             b.fname 
             FROM 
-            quiz a left join admins b 
-            on a.quizID = b.admin_id
+            quizzes a left join admins b 
+            on a.quiz_id = b.admin_id
+            WHERE a.admin_id = $this->admin_id
                 ORDER BY
-                    a.quizID ASC";
+                    a.quiz_id ASC";
             
             //Prepare Statement
             $stmt = $this->conn->prepare($query);
@@ -136,36 +102,18 @@
          //Get Single Quiz
          public function singleQuiz() {
             //Create query
-            $query = 
-            "SELECT 
-            a.quizID,
-            a.quizTitle,
-            a.parts,
-            a.date_created, 
-            b.fname 
-            FROM 
-            quiz a left join admins b 
-            on a.quizID = b.admin_id
-                WHERE 
-                    a.quizTitle = ?";
+            $query = "SELECT * FROM `quizzes` WHERE `quiz_id` =  ?";
             
             //Prepate Statement
             $stmt = $this->conn->prepare($query);
              
             //Bind Student_ID
-            $stmt->bindParam(1, $this->quizTitle);
+            $stmt->bindParam(1, $this->quizID);
             
             //Execute Query
             $stmt->execute();
-            
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-             
-            //Set student properties
-            $this->quizID = $row['quizID'];
-            $this->quizTitle = $row['quizTitle'];
-            $this->parts = $row['parts'];
-            $this->date_created = $row['date_created'];
-            $this->fname = $row['fname'];  
+                         
+            return $stmt; 
         }
         
          //Update
